@@ -1,0 +1,12 @@
+{% set last_discussion = 0 %}
+{% for message in messages %}
+  {% if message.discussion_id is not sameas(last_discussion) %}
+    {% set last_discussion = message.discussion_id %}
+    {% include 'discussions/header.in.list.html' with { discussion_id: last_discussion, caption: message.caption } %}
+  {% endif %}
+  {% include 'discussions/message.html' with { msg: message } %}
+{% else %}
+  {% if not_found %}
+    <p>{{ not_found }}</p>
+  {% endif %}
+{% endfor %}

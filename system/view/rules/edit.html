@@ -1,0 +1,18 @@
+{% extends content.layout %}
+
+{% block title %}Правила / {{ title ?: 'Новое правило' }}{% endblock %}
+
+{% block menu_local %}
+  {% include 'books/menu.html' %}
+{% endblock %}
+
+{% block content_navigation %}
+  <a href="rules.phtml" class="action">К списку</a>
+  {% if rule_id %}
+    <a href="rules.phtml?action=edit" class="action">Добавить еще</a>
+  {% endif %}
+{% endblock %}
+
+{% block main_content %}
+  {{ object | edit_form }}
+{% endblock %}

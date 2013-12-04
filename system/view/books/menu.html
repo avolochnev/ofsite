@@ -1,0 +1,47 @@
+{% if book %}
+  <span><A HREF="messages.phtml?book={{ book.book_id }}&mode=new" class="menu2item">Новые сообщения</A></span>
+  <span><A HREF="messages.phtml?book={{ book.book_id }}" class="menu2item">Обновленные дискуссии</A></span>
+  <span><A HREF="discussions.phtml?book={{ book.book_id }}" class="menu2item">Список дискуссий</A></span>
+  {% if book.can_create_discussion %}
+    <span><A HREF="discussions.phtml?book={{ book.book_id }}&action=newForm" class="menu2item">Создать дискуссию</A></span>
+  {% endif %}
+{% endif %}
+
+{% spaceless %}
+<span class="dropdown_menu_container">
+  <A HREF="books.phtml" class="menu2item">Список книг &#9660;</A>
+  <ul class="dropdown_menu">
+  {% for b in available_books if b.pseudo_book == 'N' %}
+    <li><A HREF="books.phtml?book={{ b.book_id }}&action=show">{{ b.book_name }}</A></li>
+  {% endfor %}
+  {% if current_user %}
+    <li><A HREF="private.phtml">Личные сообщения</A></li>
+  {% endif %}
+  </ul>
+</span>
+{% endspaceless %}
+
+{% if book %}
+  <span class="dropdown_menu_container">
+    <A HREF="#" class="menu2item">Еще &#9660;</A>
+    <ul class="dropdown_menu">
+      <li><A HREF="books.phtml?book={{ book.book_id }}&action=about">О книге</A></li>
+      {% if current_user %}
+        <li><A HREF="discussions.phtml?book={{ book.book_id }}&mode=new">Список обновлений</A></li>
+        <li><A HREF="discussions.phtml?book={{ book.book_id }}&action=all">Все сообщения</A></li>
+      {% endif %}
+      <li><A HREF="discussions.phtml?book={{ book.book_id }}&action=search">Поиск</A></li>
+      <li><A HREF="discussions.phtml?book={{ book.book_id }}&action=archive">Архив</A></li>
+      {% if book.can_see_deleted %}
+        <li><A HREF="discussions.phtml?book={{ book.book_id }}&action=deleted">Удаленное</A></li>
+      {% endif %}
+      {% if current_user | hasAccess('S_ADMIN') %}
+        <li><A HREF="books.phtml?book_id={{ book.book_id }}&action=edit">Изм. книгу</A></li>
+      {% endif %}
+      {% if current_user | hasAccess(['BOOK_ADMIN', 'BOOK_RATING']) %}
+        <li><A HREF="ratings.phtml?book={{ book.book_id }}&action=red">Рейтинг</A></li>
+        <li><A HREF="discussions.phtml?book={{ book.book_id }}&action=newForm&vote=true">+Голосование</A></li>
+      {% endif %}
+    </ul>
+  </span>
+{% endif %}

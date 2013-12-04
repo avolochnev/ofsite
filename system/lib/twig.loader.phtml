@@ -1,0 +1,28 @@
+<?php
+
+require_once(PATH_TO_TWIG . '/Autoloader.php');
+Twig_Autoloader::register();
+
+$loader = new Twig_Loader_Filesystem(array('./view', dirname(__FILE__) . '/../view'));
+$twig = new Twig_Environment($loader, array('cache' => '../twig.cache'));
+
+$safe = array('is_safe' => array('html'));
+$twig->addFilter(new Twig_SimpleFilter('br', array('TextUtils', 'replaceCR'), $safe));
+$twig->addFilter(new Twig_SimpleFilter('quote', array('TextUtils', 'quote')));
+$twig->addFilter(new Twig_SimpleFilter('hasAccess', array('UserUtils', 'hasAccess')));
+$twig->addFilter(new Twig_SimpleFilter('randomPix', array('FileUtils', 'randomPix')));
+$twig->addFilter(new Twig_SimpleFilter('book_date', array('DateUtils', 'parseDate')));
+$twig->addFilter(new Twig_SimpleFilter('message', array('MessageUtils', 'parseMessage'), $safe));
+$twig->addFilter(new Twig_SimpleFilter('userLink', array('UserUtils', 'userLink'), $safe));
+$twig->addFilter(new Twig_SimpleFilter('userLinkById', array('UserUtils', 'userLinkById'), $safe));
+$twig->addFilter(new Twig_SimpleFilter('nick_by_id', array('UserUtils', 'nick_by_id'), $safe));
+$twig->addFilter(new Twig_SimpleFilter('pagination', array('Paginator', 'pagination'), $safe));
+$twig->addFilter(new Twig_SimpleFilter('edit_form', array('DBObject', 'render'), $safe));
+$twig->addFilter(new Twig_SimpleFilter('rule_name', array('RuleUtils', 'name_for')));
+
+function twig($template, $params = array()) {
+	global $twig;
+	echo $twig->render($template, $params);
+}
+
+?>

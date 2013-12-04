@@ -1,0 +1,34 @@
+{% extends content.layout %}
+
+{% use 'admin/menu.html' %}
+
+{% block title %}Блокировки{% if mode == 'active' %} (активные){% endif %}{% if mode == 'permanent' %} (перманентные){% endif %}{% endblock %}
+
+{% block content_navigation %}
+<a href="blocks.phtml" class="action">Все</a>
+<a href="blocks.phtml?mode=active" class="action">Активные</a>
+<a href="blocks.phtml?mode=permanent" class="action">Перманентные</a>
+{% endblock %}
+
+{% block main_content %}
+  {{ list | pagination }}
+  <TABLE class="content_list">
+    <TR>
+      <TH>Ник</TH>
+      <TH>Начало / Окончание</TH>
+      <TH>Заблокировал</TH>
+      <TH>Изменить</TH>
+    </TR>
+  {% for block in list.data %}
+  <TR>
+    <TD><A HREF="users.phtml?id={{ block.user_id }}"><b>{{ block.user_id | userLinkById }}</b></A></TD>
+    <TD>{{ block.created }}<BR/>{% if block.till %}{{ block.till }}{% else %}навсегда{% endif %}</TD>
+    <TD>{{ block.created_by | userLinkById }}</TD>
+    <TD><A HREF="blocks.phtml?id={{ block.block_id }}">[{% if block.current %}изменить{% else %}подробности{% endif %}]</A></TD>
+  </TR>
+  {% else %}
+  <caption>Нет блокировок</caption>
+  {% endfor %}
+  </TABLE>
+  {{ list | pagination }}
+{% endblock %}

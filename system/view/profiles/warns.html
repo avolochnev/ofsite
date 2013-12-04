@@ -1,0 +1,13 @@
+<div class="gf_item"><div class="gf_item_title">Предупреждения:</div></div>
+<TABLE class="content_list"><TR><!-- <TH>#</TH><TH>Сообщение</TH> --><TH>Правило</TH><TH>Дата</TH>
+<TH>М-р</TH>
+<TH>Изменить</TH></TR>
+{% for warn in warns %}
+<TR>
+  <TD>{{ warn.rule_id | rule_name }}</TD>
+  <TD>{{ warn.created }}</TD>
+  <TD>{{ warn.created_by | userLinkById }}</TD>
+  <TD><A HREF="warns.phtml?id={{ warn.warning_id }}">[подробности]</A></TD>
+</TR>
+{% endfor %}
+</TABLE>

@@ -1,0 +1,15 @@
+{% extends content.layout %}
+
+{% use 'admin/menu.html' %}
+
+{% block title %}Предупреждение{% endblock %}
+
+{% block main_content %}
+  <P>Пользователь <b>{{ msg.nick }}</b> предупрежден за нарушение правила <B>{{ rule }}</B>.</P>
+  <P><B>Сообщение:</B></BR>{{ text|raw|br }}</P>
+  {% if msg.comment %}
+  <P><B>Комментарий модератора:</B><BR/>
+  {{ msg.comment|br }}
+  {% endif %}
+{% endblock %}
+

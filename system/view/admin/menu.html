@@ -1,0 +1,15 @@
+{% block menu_local %}
+  {% if current_user | hasAccess('CMS_ADMIN') %}
+    <span><A HREF="pages.phtml" class="menu2item">Контент</A></span>
+  {% endif %}
+  {% if current_user | hasAccess('BOOK_ADMIN') %}
+    <span><A HREF="blocks.phtml" class="menu2item">Блокировки</A></span>
+    <span><A HREF="ip_blocks.phtml" class="menu2item">Блокировки по IP</A></span>
+    <span><A HREF="warns.phtml" class="menu2item">Предупреждения</A></span>
+  {% endif %}
+  {% if current_user | hasAccess('S_ADMIN') %}
+    <span><A HREF="users.phtml" class="menu2item">Пользователи</A></span>
+    <span><A HREF="realms.phtml" class="menu2item">Области доступа</A></span>
+  {% endif %}
+  {% include 'books/menu.html' %}
+{% endblock %}

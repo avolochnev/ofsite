@@ -1,0 +1,8 @@
+<div>
+<FORM ACTION="users.phtml?id={{ user.user_id }}" METHOD="POST" NAME="priorityUser">
+<INPUT TYPE=HIDDEN NAME="action" VALUE="priorityChange"></INPUT>
+<INPUT TYPE=CHECKBOX NAME="priority" VALUE=1 {% if my_priority %} checked{% endif %}>Выделять этот ник в книге(форуме)<BR>
+<INPUT TYPE=CHECKBOX NAME="black" VALUE=1{% if my_black %} checked{% endif %}>Не показывать сообщения, подписанные этим ником (внести в черный список)<BR>
+<INPUT TYPE=SUBMIT VALUE="Изменить"></INPUT>
+</FORM>
+</div>

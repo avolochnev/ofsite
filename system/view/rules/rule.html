@@ -1,0 +1,21 @@
+{% set is_admin = current_user | hasAccess('BOOK_RULES') %}
+<div class="gf_item">
+  <div class="gf_item_title">{{ rule.name }}
+    {% if is_admin %}
+       (priority={{ rule.priority }}{% if rule.hidden == 'Y' %}, скрыто {% endif %})
+    {% endif %}
+  </div>
+  {% if is_admin %}
+  <div class="gf_item_menu"><A href="rules.phtml?rule_id={{ rule.rule_id }}">Изменить</A></div>
+  {% endif %}
+  {% if rule.description %}
+    <p>{{ rule.description|br }}</p>
+  {% endif %}
+  {% if rule.need_block == 'Y' and rule.need_warn == 'Y' %}
+    <p>За нарушение данного правила пользователь может быть предупрежден или заблокирован.</p>
+  {% elseif rule.need_block == 'Y' %}
+    <p>За нарушение данного правила пользователь может быть заблокирован.</p>
+  {% elseif rule.need_warn == 'Y' %}
+    <p>За нарушение данного правила пользователь может получить предупреждение.</p>
+  {% endif %}
+</div>

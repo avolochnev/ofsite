@@ -1,0 +1,13 @@
+{% extends content.layout %}
+
+{% use 'admin/menu.html' %}
+
+{% block title %}Управление контентом{% endblock %}
+
+{% block content_navigation %}
+  <a href="pages.phtml?action=edit" class="action">Добавить страницу</a>
+{% endblock %}
+
+{% block main_content %}
+  {% include 'pages/list.html' %}
+{% endblock %}

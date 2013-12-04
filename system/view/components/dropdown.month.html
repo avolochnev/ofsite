@@ -1,0 +1,5 @@
+<SELECT NAME="{{ name }}" value="{{ value }}"><OPTION VALUE="  "></OPTION>
+{% for month in ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'] %}
+  <OPTION VALUE="{{ "%02d"|format(loop.index) }}"{% if loop.index == value %} selected{% endif %}>{{ month }}</OPTION>
+{% endfor %}
+</SELECT>

@@ -1,0 +1,23 @@
+{% extends content.layout %}
+
+{% block title %}Вход{% endblock %}
+
+{% block main_content %}
+  <FORM ACTION="session.phtml" METHOD="POST" NAME="sendForm">
+  <INPUT TYPE=HIDDEN NAME="action" VALUE="create"></INPUT>
+  <INPUT TYPE=HIDDEN NAME="redirect" VALUE="{{ redirect }}"></INPUT>
+  <table border="0" align=center cellspacing="0" cellpadding="0">
+    <TR>
+     <TD class=form>
+     Ник (имя):</TD>
+     <TD class=form><INPUT TYPE=TEXT NAME="nick" MAXLENGTH=50 style="width:70px; height:20px; font-family:tahoma; font-size:11px; font-color:#014DA5" ></INPUT></TD>
+    </TR><TR>
+     <TD class=form>Пароль:</TD>
+     <TD valign=top><INPUT TYPE=PASSWORD NAME="password" style="width:70px; height:20px; font-family:tahoma; font-size:11px; font-color:#014DA5" ></INPUT></TD>
+    </TR>
+    <TR><TD align=center colspan=2>
+      <INPUT TYPE=SUBMIT VALUE="Войти" onClick="return checkEnterForm();" style="width:70px; height:20px; font-family:tahoma; font-size:11px;"></INPUT></TD>
+    </TR>
+  </TABLE>
+  </FORM>
+{% endblock %}

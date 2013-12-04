@@ -1,0 +1,5 @@
+<SELECT NAME="{{ name }}" value="{{ value }}"><OPTION VALUE=""></OPTION>
+{% for day in 1..31 %}
+  <OPTION VALUE="{{ "%02d"|format(day) }}"{% if day == value %} selected{% endif %}>{{ day }}</OPTION>
+{% endfor %}
+</SELECT>

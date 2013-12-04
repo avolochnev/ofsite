@@ -1,0 +1,9 @@
+{% if book.is_admin %}
+<div class="admin_actions">
+<A href="javascript:editInline({{ msg.message_id }})" title="Редактировать">#{{ msg.message_id }}<!--&#x2328;--></A>
+<A href="javascript:blockUser({{ msg.message_id }})">[Заблокировать]</A>
+<A href="javascript:warnUser({{ msg.message_id }})">[Предупредить]</A>
+<A class="visibility-action" href="javascript:toggleMsgAjax({{ msg.message_id }}, 'restore')"{% if not is_deleted %} style="display: none;"{% endif %}>[Восстановить]</A>
+<A class="visibility-action" href="javascript:toggleMsgAjax({{ msg.message_id }}, 'delete')"{% if is_deleted %} style="display: none;"{% endif %}>[Удалить]</A>
+</div>
+{% endif %}

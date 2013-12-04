@@ -1,0 +1,20 @@
+{% extends content.layout %}
+
+{% block title %}{{ book.book_name }} / Архив{% endblock %}
+
+{% block menu_local %}
+  {% include 'books/menu.html' %}
+{% endblock %}
+
+{% block main_content %}
+  {% include 'books/archive.select.html' %}
+  {{ list | pagination }}
+  {% for discussion in list.data %}
+    {% include 'forum/discussion.link.html' with { discussion: discussion } %}
+  {% else %}
+  <p>Нет сообщений</p>
+  {% endfor %}
+  {{ list | pagination }}
+
+{% endblock %}
+

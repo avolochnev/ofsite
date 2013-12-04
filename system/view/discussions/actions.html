@@ -1,0 +1,14 @@
+<div id="new_message_placeholder_{{ discussion.discussion_id }}"></div>
+<div  id="add_link_{{ discussion.discussion_id }}" class="answer" style="text-align: left;"><DIV class="gfb_discussion_actions">
+{% if current_user %}
+<A HREF="javascript:loadMessageForm({{ discussion.discussion_id }});">[ответить]</A>&nbsp;
+{% else %}
+<A HREF="discussions.phtml?id={{ discussion.discussion_id }}&showPage=-1" title="&#x2936;">[ответить]</A>&nbsp;
+{% endif %}
+<A HREF="discussions.phtml?id={{ discussion.discussion_id }}&showPage=-1" target="_blank" title="&#x2752;">[ответить в новом окне]</A>
+{% if current_user %}
+&nbsp;<A id="trace_toggle_{{ discussion.discussion_id }}" href="javascript:dontTrace({{ discussion.discussion_id }}, 'Y')" title="&#x2716;">[не отслеживать изменения]</A>
+{% endif %}
+
+</DIV></div>
+<div id="add_form_placeholder_{{ discussion.discussion_id }}"></div>

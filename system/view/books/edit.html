@@ -1,0 +1,15 @@
+{% extends content.layout %}
+
+{% block title %}{% if book.book_name %}{{ book.book_name }}{% else %}Новая книга{% endif %}{% endblock %}
+
+{% block menu_local %}
+  {% include 'books/menu.html' %}
+{% endblock %}
+
+{% block content_navigation %}
+<a href="books.phtml" class="action">К списку</a>
+{% endblock %}
+
+{% block main_content %}
+  {{ object | edit_form }}
+{% endblock %}

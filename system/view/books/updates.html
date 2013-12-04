@@ -1,0 +1,8 @@
+<div class="gf_item">
+<div class="gf_item_title">{{ title }}</div>
+{% for upd in updates %}
+<p>
+  <a href="messages.phtml?book={{ upd.id }}{{ mode }}">{{ upd.name }} (новых сообщений - {{ upd.cnt }})</a>
+</p>
+{% endfor %}
+</div>

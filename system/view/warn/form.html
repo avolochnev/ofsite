@@ -1,0 +1,15 @@
+<div class="inline form">
+  <div>
+    <label>* Правило:</label>
+    {% include 'components/dropdown.html' with { 'name': 'rule_id', 'value': rule, 'options': rules } %}
+  </div>
+  <label>Комментарий:</label><TEXTAREA id="warn_message_{{ msg.message_id }}_comment" NAME="comment" rows=8 cols=50 wrap="virtual">{{ comment }}</TEXTAREA>
+  <div><INPUT type="checkbox" value="1" id="del_message_{{ msg.message_id }}">Удалить сообщение</INPUT></div>
+{% if not msg.is_answer %}
+  <div><INPUT type="checkbox" value="1" id="del_discussion_message_{{ msg.message_id }}">Удалить дискуссию</INPUT></div>
+{% endif %}
+  <div class="actions">
+    <a class="button" href="javascript:submitWarn({{ msg.message_id }})">Предупредить<a>
+    <a class="button cancel" href="javascript:cancelEdit({{ msg.message_id }})">Отменить</a>
+  </div>
+</div>

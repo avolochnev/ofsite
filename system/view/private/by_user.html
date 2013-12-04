@@ -1,0 +1,43 @@
+{% extends content.layout %}
+
+{% macro alias_link(user_id, as_id, nick, active) %}
+  {% if active %}
+    <span class="active-link">Как {{ nick }}</span>
+  {% else %}
+    <a href="private.phtml?user_id={{ user_id }}{% if as_id %}&as_id={{ as_id }}{% endif %}" class="other-link">
+      Как {{ nick }}
+    </a>
+  {% endif %}
+{% endmacro %}
+
+{% block title %}Личные сообщения: {{ user.nick }}{% if as_nick %} (как {{ as_nick }}){% endif %}{% endblock %}
+
+{% block menu_local %}{% include 'books/menu.html' %}{% endblock %}
+
+{% block content_navigation %}
+  <a href="private.phtml" class="action">Все дискуссии</a>
+{% endblock %}
+
+{% block main_content %}
+  {% if aliases %}
+    {{ _self.alias_link(user.user_id, 0, current_user.nick, not as_id) }}
+  {% for alias_id, alias in aliases %}
+    {{ _self.alias_link(user.user_id, alias_id, alias, as_id == alias_id) }}
+  {% endfor %}
+  {% endif %}
+  {% for msg in messages %}
+  <div id="private_{{ msg.msg_id }}">
+  <div class="message" align="justify">
+  <b>{{ msg.from_nick }}</b><br/>
+  {{ msg.text|message }}
+  </div>
+  <div class="message" align="right">
+  {{ msg.date|book_date }}
+  {% if not msg.read_date %}<a name="new"/><b>New!</b>{% endif %}
+  </div>
+  </div>
+  {% else %}
+  <div>Нет сообщений.</div>
+  {% endfor %}
+  {% include 'private/add.msg.form.html' %}
+{% endblock %}

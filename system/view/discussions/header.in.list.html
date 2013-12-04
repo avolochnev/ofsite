@@ -1,0 +1,6 @@
+<P id="dis{{ discussion_id }}" class="discussion">
+<A class="message" href="discussions.phtml?id={{ discussion_id }}&showPage=-1"><span>{{ caption }}</span></a>
+{% if vote %}
+{% include 'vote/show.html' with vote %}
+{% endif %}
+</P>

@@ -1,0 +1,14 @@
+<div align="center">
+<FORM action="discussions.phtml" method="POST" name="moveToBookForm">
+<INPUT TYPE="hidden" name="action" value="move">
+<INPUT TYPE="hidden" name="id" value="{{ discussion_id }}">
+<INPUT type="Submit" value="Перенести в раздел">
+<SELECT name="target_book">
+{% for id, b in available_books %}
+  <OPTION value="{{ id }}" {% if id == current_book %}selected{% endif %}>
+  {{ b.book_name }}
+  </OPTION>
+{% endfor %}
+</SELECT>
+</FORM>
+</div>

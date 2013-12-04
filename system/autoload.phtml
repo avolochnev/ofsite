@@ -1,0 +1,29 @@
+<?php
+
+ini_set('default_charset', 'utf-8');
+mb_internal_encoding("UTF-8");
+
+error_reporting  (E_ERROR | E_PARSE);
+
+require(dirname(__FILE__) . '/lib/twig.loader.phtml');
+
+class Ofsite_Autoloader {
+	public static function autoload($class) {
+		self::load(dirname(__FILE__) . "/classes/$class.php");
+	}
+  public static function autoloadControllers($class) {
+    self::load(dirname(__FILE__) . "/controllers/$class.php");
+  }
+  public static function autoloadModels($class) {
+    self::load(dirname(__FILE__) . "/models/$class.php");
+  }
+  private static function load($file_name) {
+    if (file_exists($file_name)) require_once($file_name);
+  }
+}
+
+spl_autoload_register(array('Ofsite_Autoloader', 'autoload'));
+spl_autoload_register(array('Ofsite_Autoloader', 'autoloadControllers'));
+spl_autoload_register(array('Ofsite_Autoloader', 'autoloadModels'));
+
+?>

@@ -1,0 +1,25 @@
+{% macro out_option(vote, result, id) %}
+  {{ vote.options[id] }}
+  {% if result.sums[id] %}
+    <span class="percent" title="{{ result.sums[id] }}">({{ result.percents[id] }}%)</span>
+  {% endif %}
+{% if result.stars[id] %}
+<div class="stars" title="{{ result.sums[id] }}">{% for i in 1..result.stars[id] %}&#x2605;{% endfor %}</div>
+{% endif %}
+{% endmacro %}
+<div id="vote_{{ vote.discussion_id }}">
+{% for id in result.order %}
+  {% if selected_option == id %}
+  <div class="vote option selected"><span>&#x2714;</span>
+    {{ _self.out_option(vote, result, id) }}
+  </div>
+  {% else %}
+  <a class="vote option" href="javascript:vote({{ vote.discussion_id }}, {{ id }})"><span class="fade-in">&#x2714;</span>
+    {{ _self.out_option(vote, result, id) }}
+    {% if editor and not result.sums[id] %}
+      <span onclick="voteDeleteOption({{ vote.discussion_id }}, {{ id }}); return false" class="fade-in" title="Удалить">&#x2716;</span>
+    {% endif %}
+  </a>
+  {% endif %}
+{% endfor %}
+</div>

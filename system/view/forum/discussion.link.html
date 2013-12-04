@@ -1,0 +1,14 @@
+{% if discussion.new_count %}{% set showRecord = discussion.full_count - discussion.new_count + 1 %}{% endif %}
+<P><A class="message" HREF="discussions.phtml?id={{ discussion.discussion_id }}{% if showRecord %}&showRecord={{ showRecord }}{% endif %}"><B>{{ discussion.caption }}</B></A>
+  {% if discussion.dont_trace == 'Y' %} <i>(изменения не отслеживаются)</i>{% endif %}
+  {% if discussion.voting %} <i>(голосование)</i>{% endif %}
+  <BR>
+Создано: {{ discussion.date|book_date }};
+{% if not discussion.voting %}
+автор: {{ discussion | userLink }};
+{% endif %}
+cообщений: <b>{{ discussion.full_count }}</b>;
+{% if discussion.new_count %}
+новых: <b>{{ discussion.new_count }}</b>
+{% endif %}
+</P>

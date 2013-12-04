@@ -1,0 +1,2 @@
+#{{ user.user_id }} {{ user | userLink }}{% if user.realm_id %} ({{ user.realm_id }}){% endif %}
+<a href="users.phtml?id={{ user.user_id }}&action=edit_by_admin">[подробности]</a><BR>

@@ -1,0 +1,13 @@
+<div class="inline form">
+  <div>
+    <label>* Правило:</label> {% include 'components/dropdown.html' with { 'name': 'rule_id', 'value': rule, 'options': rules }  %}
+  </div>
+  <div>{% include 'block/date.row.html' with { field: 'till', year: year, month: month, day: day } %}</div>
+  <div>
+    <label>Комментарий:</label><TEXTAREA id="block_message_{{ message_id }}_comment" NAME="comment" rows=8 cols=50 wrap="virtual">{{ comment }}</TEXTAREA>
+  </div>
+  <div class="actions">
+    <a class="button" href="javascript:submitBlock({{ message_id }})">Заблокировать<a>
+    <a class="button cancel" href="javascript:cancelEdit({{ message_id }})">Отменить</a>
+  </div>
+</div>

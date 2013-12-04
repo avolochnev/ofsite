@@ -1,0 +1,1 @@
+$('#message_{{ message_id }}').replaceWith('{% filter escape('js') %}{% include 'discussions/message.html' %}{% endfilter %}');

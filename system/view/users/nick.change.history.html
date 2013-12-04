@@ -1,0 +1,4 @@
+<h3>Смена ника</h3>
+{% for change in nick_change_history %}
+<div>{{ change.date }}: <A HREF="users.phtml?id={{ change.prev }}">{{ change.prev_nick }}</A> => <A HREF="users.phtml?id={{ change.next }}">{{ change.next_nick }}</A></div>
+{% endfor %}

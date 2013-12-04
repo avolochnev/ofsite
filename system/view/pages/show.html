@@ -1,0 +1,7 @@
+{% extends content.layout %}
+
+{% block title %}{{ page_data.page_name }}{% endblock %}
+
+{% block main_content %}
+  {{ page_data.page_content | raw }}
+{% endblock %}

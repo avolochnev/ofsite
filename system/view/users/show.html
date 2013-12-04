@@ -1,0 +1,59 @@
+{% extends content.layout %}
+
+{% macro profile_line(label, text) %}
+{% if text|trim %}
+<div class="gf_prop">
+  <div class="gf_prop_name">{{ label }}</div>
+  <div class="gf_prop_value">{{ text|raw }}</div>
+</div>
+{% endif %}
+{% endmacro %}
+
+{% block title %}{{ user.nick }}{% endblock %}
+
+{% block menu_local %}
+  {% include 'books/menu.html' %}
+{% endblock %}
+
+{% block content_navigation %}
+  {% if current_user | hasAccess('BOOK_ADMIN') %}
+    <a href="users.phtml?id={{ user.user_id }}&action=edit_by_admin" class="action">Подробности</a>
+  {% endif %}
+  {% if statistics %}
+    <a href="users.phtml?id={{ user.user_id }}&action=relationships" class="action">Связи</a>
+  {% endif %}
+{% endblock %}
+
+{% block main_content %}
+  {% if user.picture_url %}
+  <center><a href="{{ user.picture_url }}" target="_blank"><img border="0" style="max-width: 100px;" src="{{ user.picture_url }}" width="100"/></A>
+  </center>
+  {% endif %}
+  {{ _self.profile_line('login', user.nick) }}
+  {% set full_name = user.last_name ~ ' ' ~ user.first_name ~ ' ' ~ user.middle_name %}
+  {{ _self.profile_line('ФИО', full_name) }}
+  {{ _self.profile_line('Дата Рождения', birth) }}
+  {{ _self.profile_line('Возраст', age) }}
+  {% if user.hide_email == 'N' %}
+  {{ _self.profile_line('e-mail', user.email) }}
+  {% endif %}
+  {{ _self.profile_line('Информация', user.note|br) }}
+  {% if user.active == 'N' %}
+  {{ _self.profile_line('Статус', '<b>Заблокирован</b>'|raw) }}
+  {% endif %}
+  {% if block_info %}
+  <p>
+  Пользователь заблокирован{% if block_info.till %} до <b>{{ block_info.till|book_date }}</b>{% endif %}.
+  </p>
+  {% endif %}
+
+  {% if current_user %}{% include 'users/profile.priority.html' %}{% endif %}
+
+  {% if statistics and statistics.total %}
+    {% include 'profiles/deleted.percent.html' with { 'deleted': statistics.deleted, 'total': statistics.total } %}
+  {% endif %}
+
+  {% if statistics %}
+    {% include 'profiles/links.html' with { 'black_count': statistics.black_count, 'red_count': statistics.red_count, 'user_id': user.user_id } %}
+  {% endif %}
+{% endblock %}

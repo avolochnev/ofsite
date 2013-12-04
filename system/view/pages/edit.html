@@ -1,0 +1,17 @@
+{% extends content.layout %}
+
+{% block title %}Редактирование страницы{% endblock %}
+
+{% block content_navigation %}
+  {% if page_id %}
+    <a href="pages.phtml?action=edit&page_parent={{ page_id }}" class="action">Добавить под-страницу</a>
+  {% endif %}
+  {% if parent_id %}
+    <a href="pages.phtml?action=edit&page_id={{ parent_id }}" class="action">Вверх</a>
+  {% endif %}
+{% endblock %}
+
+{% block main_content %}
+  {{ object | edit_form }}
+  {% include 'pages/list.html' %}
+{% endblock %}

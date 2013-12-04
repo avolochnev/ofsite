@@ -1,0 +1,27 @@
+{% extends content.layout %}
+
+{% use 'admin/menu.html' %}
+
+{% block title %}Пользователи {{ realm_id }} {{ is_group ? '(групповые)' }}{% endblock %}
+
+{% block content_navigation %}
+  <a href="users.phtml" class="action">Все пользователи</a>
+  <a href="users.phtml?type=group" class="action">Гр. пользователи</a>
+  {% for r in realms %}
+    <a href="users.phtml?realm_id={{ r.realm_id }}" class="action">{{ r.realm_id }}</a>
+  {% endfor %}
+{% endblock %}
+
+{% block main_content %}
+  {{ list | pagination }}
+  {% for user in list.data %}
+    {% include 'users/user.html' with { user: user } %}
+  {% else %}
+    <p>Пользователи не найдены</p>
+  {% endfor %}
+  {{ list | pagination }}
+
+  {% if is_group %}
+    {% include 'users/add.group.form.html' %}
+  {% endif %}
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends content.layout %}
+
+{% use 'admin/menu.html' %}
+
+{% block title %}Блокировки по IP{% endblock %}
+
+{% block content_navigation %}
+  <a href="ip_blocks.phtml?action=edit" class="action">Добавить блокировку</a>
+{% endblock %}
+
+{% block main_content %}
+  {{ list | pagination }}
+  <TABLE class="content_list"><TR><TH>IP</TH><TH>Правило</TH></TR>
+    {% for block in list.data %}
+    <TR>
+      <TD><A HREF="ip_blocks.phtml?ip_block_id={{ block.ip_block_id }}">{{ block.ip }}</A></TD>
+      <TD>{{ block.name }}</TD>
+    </TR>
+    {% else %}
+    <caption>На данный момент нет ни одной блокировки.</caption>
+    {% endfor %}
+  </TABLE>
+  {{ list | pagination }}
+{% endblock %}
+

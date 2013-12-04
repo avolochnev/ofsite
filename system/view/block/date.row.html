@@ -1,0 +1,14 @@
+<label>Срок:</label>
+<form>
+  Д:{% include 'components/dropdown.day.html'   with {'name': field ~ '_day',   'value': day} %}
+  М:{% include 'components/dropdown.month.html' with {'name': field ~ '_month', 'value': month} %}
+  Г:{% include 'components/dropdown.year.html'  with {'name': field ~ '_year',  'value': year, start: 2006, finish: 2050} %}
+Выбрать:<SELECT name="termSelect" onChange="setTill(this.form);">
+  <OPTION value=""></OPTION>
+  <OPTION value="year">Год</OPTION>
+  <OPTION value="halfyear">Пол-года</OPTION>
+  <OPTION value="month">Месяц</OPTION>
+  <OPTION value="week">Неделя</OPTION>
+  <OPTION value="day">День</OPTION>
+</SELECT>
+</form>

@@ -1,0 +1,21 @@
+{% extends content.layout %}
+
+{% block title %}Правила{% endblock %}
+
+{% block menu_local %}
+  {% include 'books/menu.html' %}
+{% endblock %}
+
+{% block content_navigation %}
+  {% if is_admin %}<a href="rules.phtml?action=edit" class="action">Добавить правило</a>{% endif %}
+{% endblock %}
+
+{% block main_content %}
+  {{ list | pagination }}
+  {% for rule in list.data %}
+    {% include 'rules/rule.html' with { rule: rule } %}
+  {% else %}
+    <div class="error">Правила не определены</div>
+  {% endfor %}
+  {{ list | pagination }}
+{% endblock %}

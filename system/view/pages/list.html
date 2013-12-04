@@ -1,0 +1,5 @@
+  {% for page in pages %}
+  <A HREF="pages.phtml?action=edit&page_id={{ page.page_id }}">
+    #{{ page.page_id }} {{ page.page_name }} [Пр={{ page.priority}}{% if page.is_active == 'N' %}, скрыта{% endif %}]
+  </A><BR>
+  {% endfor %}

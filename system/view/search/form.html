@@ -1,0 +1,49 @@
+<table align=center>
+  <tr>
+    <td class=form>Ник
+    </td>
+    <td>
+      <FORM action="discussions.phtml" method="GET">
+      <INPUT TYPE=HIDDEN NAME="action" VALUE="search"></INPUT>
+      <INPUT TYPE=HIDDEN NAME="book" VALUE="{{ params.book_id }}"></INPUT>
+      <INPUT TYPE=TEXT NAME="nick" maxlength=50 VALUE="{{ params.nick|quote }}"></INPUT>
+    </td>
+  </tr>
+  <tr>
+    <TD class=form><P>Дата сообщения с:</TD>
+    <TD class=form><P>
+      {% include 'components/dropdown.day.html'   with {'name': 'from_day',   'value': params.from_day} %}
+      {% include 'components/dropdown.month.html' with {'name': 'from_month', 'value': params.from_month} %}
+      {% include 'components/dropdown.year.html'  with {'name': 'from_year',  'value': params.from_year, 'start': 2003, 'finish': current_year} %}
+    </TD>
+  </tr>
+  <tr>
+    <TD class=form><P>Дата сообщения по:</TD>
+    <TD class=form><P>
+      {% include 'components/dropdown.day.html'   with {'name': 'to_day',   'value': params.to_day} %}
+      {% include 'components/dropdown.month.html' with {'name': 'to_month', 'value': params.to_month} %}
+      {% include 'components/dropdown.year.html'  with {'name': 'to_year',  'value': params.to_year, 'start': 2003, 'finish': current_year} %}
+    </TD>
+  </tr>
+  <tr>
+    <td class=form>
+      Дискуссия:
+    </td>
+    <td>
+      <INPUT TYPE=TEXT NAME="discussion" maxlength=50 VALUE="{{ params.discussion|quote }}"></INPUT>
+    </td>
+  </tr>
+  <tr>
+    <td class=form>
+      Текст:
+    </td>
+    <td>
+      <INPUT TYPE=TEXT NAME="message_text" maxlength=50 VALUE="{{ params.message_text|quote }}"></INPUT>
+    </td>
+  </tr>
+  <tr>
+    <td colspan=2 align=center>
+      <INPUT TYPE="SUBMIT" VALUE="Найти" align=top></INPUT></FORM>
+    </td>
+  </tr>
+</table>

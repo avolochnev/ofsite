@@ -1,0 +1,9 @@
+<div class="inline form">
+<div><label>Дискуссия:</label>
+  {% include 'components/dropdown.html'
+       with { name: 'discussion_id_for_message_' ~ msg.message_id, value: msg.discussion_id, options: discussions } %}
+</div>
+<div><label>Город:</label><INPUT id="message_{{ msg.message_id }}_comment" TYPE=TEXT NAME="comment" value="{{ msg.comment }}" MAXLENGTH=50></INPUT></div>
+<TEXTAREA id="message_{{ msg.message_id }}_text" NAME="message" rows=8 cols=50 wrap="virtual">{{ msg.text|raw }}</TEXTAREA>
+<div class="actions"><a class="button" href="javascript:updateMessage({{ msg.message_id }})">Изменить</a> <A class="button cancel" href="javascript:cancelEdit({{ msg.message_id }})">Отмена</A></div>
+</div>

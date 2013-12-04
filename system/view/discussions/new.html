@@ -1,0 +1,104 @@
+{% extends content.layout %}
+
+{% block title %}{{ book.book_name }} / Новая дискуссия{% endblock %}
+
+{% block menu_local %}
+  {% include 'books/menu.html' %}
+{% endblock %}
+
+{% block main_content %}
+  <P>
+  Приведенная ниже форма предназначена для создания новой дискуссии. Если вы хотите ответить на какое-либо сообщение,
+  то Вам нужно перейти в соответствующую дискуссию и набрать свое сообщение там. <BR>
+  Большая просьба: без особой необходимости не пользуйтесь данной формой.
+  </P>
+  <P>
+  <FORM ACTION="discussions.phtml" METHOD="POST" NAME="sendForm">
+  <INPUT TYPE=HIDDEN NAME="book" VALUE="{{ book.book_id }}">
+  <INPUT TYPE=HIDDEN NAME="action" VALUE="create">
+  <TABLE align=center>
+    {% if not vote %}
+    <TR>
+      <TD class=form valign="middle">Имя (Ник):</TD>
+      <TD valign="middle" class=form><b>{{ current_user.nick }}</b></TD>
+    </TR>
+    <TR>
+     <TD class=form valign="middle">Город:</TD>
+     <TD valign="middle"><INPUT TYPE=TEXT NAME="comment" MAXLENGTH=50></INPUT></TD>
+    </TR>
+    {% endif %}
+    <TR>
+     <TD class=form valign="middle">Тема:</TD>
+     <TD valign="middle"><INPUT TYPE=TEXT NAME="caption" MAXLENGTH=100 value="{{ caption }}"></INPUT></TD>
+    </TR>
+    {% if vote %}
+    {% for opt in 1..20 %}
+    <TR>
+     <TD class=form valign="middle">Вариант {{ opt }}:</TD>
+     <TD valign="middle"><INPUT TYPE=TEXT NAME="option{{ opt }}" MAXLENGTH=100></INPUT></TD>
+    </TR>
+    {% endfor %}
+    <TR>
+      <TD colspan=2 class="form">Лишние варианты можно оставить пустыми.<INPUT type="hidden" name="vote" value="true"/></TD>
+    </TR>
+    {% else %}
+    <TR>
+     <TD colspan=2 class="form">Текст сообщения:<BR/><TEXTAREA NAME="message" rows=8 cols=40>{{ message }}</TEXTAREA></TD>
+    </TR>
+    {% endif %}
+    <TR><TD align=center colspan=2>
+      <INPUT TYPE=SUBMIT VALUE="Отправить" onClick="return checkForm();"></INPUT>
+     </TD>
+    </TR>
+  </TABLE>
+  <SCRIPT language="javascript">
+  // Устанавливаем дату истечения cookies на год.
+  var largeExpDate = new Date ();
+  largeExpDate.setTime(largeExpDate.getTime() + (365 * 24 * 3600 * 1000));
+
+  function checkForm() {
+    {% if not vote %}
+    setCookie('', '', document.sendForm.comment.value);
+    {% endif %}
+    if (!document.sendForm.caption.value) {
+      alert ('Необходимо заполнить тему сообщения!');
+      return false;
+    }
+    {% if not vote %}
+    if (!document.sendForm.message.value) {
+      alert ('Необходимо указать текст сообщения!');
+      return false;
+    }
+    {% endif %}
+    if (confirm('Создать дискуссию?')) {
+      return true;
+    }
+    return false;
+  }
+
+  function getCookie(name) {
+    var prefix = name + '=';
+    var start = document.cookie.indexOf(prefix);
+    if (start == -1) {
+      return '';
+    }
+    start += prefix.length;
+    var end = document.cookie.indexOf(';', start);
+    if (end == -1) {
+      end = document.cookie.length;
+    }
+    return unescape(document.cookie.substring(start, end));
+  }
+
+  function setCookie(password, email, comment) {
+    document.cookie = 'password=' + escape(password);
+    document.cookie = 'email=' + escape(email) + ';expires=' + largeExpDate.toGMTString();
+    document.cookie = 'comment=' + escape(comment) + ';expires=' + largeExpDate.toGMTString();
+  }
+
+  {% if not vote %}
+    document.sendForm.comment.value = getCookie('comment');
+  {% endif %}
+  </SCRIPT>
+  </FORM>
+{% endblock %}

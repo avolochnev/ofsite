@@ -1,0 +1,19 @@
+{% extends content.layout %}
+
+{% block title %}{{ book.book_name }} / Поиск{% endblock %}
+
+{% block menu_local %}
+  {% include 'books/menu.html' %}
+{% endblock %}
+
+{% block main_content %}
+  {% include 'search/form.html' %}
+  {% if list %}
+    {{ list | pagination }}
+    {% include 'message/list.html'
+          with { messages: list.data, not_found: 'По Вашему запросу не найдено ни одного сообщения.' } %}
+    {{ list | pagination }}
+  {% endif %}
+
+{% endblock %}
+

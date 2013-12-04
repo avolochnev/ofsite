@@ -1,0 +1,46 @@
+{% extends content.layout %}
+
+{% use 'admin/menu.html' %}
+
+{% block title %}Области доступа{% endblock %}
+
+{% block main_content %}
+  <FORM action="realms.phtml" method="POST" name="addRealmForm" onSubmit="return checkAddRealm();">
+  <INPUT type="hidden" name="action" value="create">
+  <TABLE align="center" class="form">
+    <TR>
+      <TD class="form">Идентификатор</TD>
+      <TD class="form"><INPUT type="TEXT" name="realm_id" maxlength="15"></TD>
+      <TD class="form">(Обязательно)</TD>
+    </TR>
+    <TR>
+      <TD class="form">Описание</TD>
+      <TD class="form"><INPUT type="TEXT" name="description" maxlength="250"></TD>
+      <TD class="form">(Обязательно)</TD>
+    </TR>
+    <TR>
+      <TD colspan="3"><INPUT type="checkbox" name="is_restrict" value="1">Ограничение доступа</TD>
+    </TR>
+    <TR>
+      <TD colspan=3 align="center"><INPUT type="submit" value="Добавить"></TD>
+    </TR>
+  </TABLE>
+  </FORM>
+  <SCRIPT language="javascript">
+  function checkAddRealm() {
+    if (!document.addRealmForm.realm_id.value.length) {
+      alert('Идентификатор не должен быть пустым');
+      return false;
+    }
+    if (!document.addRealmForm.description.value) {
+      alert('Описание не должно быть пустым');
+      return false;
+    }
+    return true;
+  }
+
+  </SCRIPT>
+  {% for realm in realms %}
+  {{ realm.realm_id }} ({{ realm.description }}{% if realm.is_restrict == 'Y' %}, <b>Ограничение</b>{% endif %})<BR>
+  {% endfor %}
+{% endblock %}

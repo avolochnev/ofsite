@@ -1,0 +1,59 @@
+<div align=center>
+<FORM ACTION="discussions.phtml" METHOD="POST" NAME="editDiscussion">
+<INPUT TYPE=HIDDEN NAME="id" VALUE="{{ discussion.discussion_id }}"></INPUT>
+<INPUT TYPE=HIDDEN NAME="action" VALUE="update"></INPUT>
+Изменить заголовок:<INPUT TYPE=TEXT NAME="caption" VALUE="{{ discussion.caption }}" MAXLENGTH=100></INPUT><BR>
+<INPUT TYPE=CHECKBOX NAME="dont_archive" VALUE=1{% if discussion.dont_archive %} checked{% endif %}>Не архивировать<BR>
+<INPUT TYPE=SUBMIT VALUE="Изменить"></INPUT>
+</FORM>
+<FORM ACTION="discussions.phtml" METHOD="POST" NAME="archiveDiscussion">
+<INPUT TYPE=HIDDEN NAME="id" VALUE="{{ discussion.discussion_id }}"></INPUT>
+<INPUT TYPE=HIDDEN NAME="action" VALUE="stop"></INPUT>
+</FORM>
+{% if discussion.is_deleted %}
+<FORM ACTION="discussions.phtml" METHOD="POST" NAME="undelDiscussion">
+<INPUT TYPE=HIDDEN NAME="id" VALUE="{{ discussion.discussion_id }}"></INPUT>
+<INPUT TYPE=HIDDEN NAME="action" VALUE="restore"></INPUT>
+</FORM>
+{% else %}
+<FORM ACTION="discussions.phtml" METHOD="POST" NAME="delDiscussion">
+<INPUT TYPE=HIDDEN NAME="id" VALUE="{{ discussion.discussion_id }}"></INPUT>
+<INPUT TYPE=HIDDEN NAME="action" VALUE="destroy"></INPUT>
+</FORM>
+{% endif %}
+<SCRIPT language="javascript">
+function checkDelDiscussionForm() {
+  if (confirm('Вы уверены, что эта дискуссия не имеет права на существование?')) {
+    return true;
+  }
+  return false;
+}
+function submitDelDiscussionForm() {
+  if (checkDelDiscussionForm()) {
+    document.delDiscussion.submit();
+  }
+}
+function checkUndelDiscussionForm() {
+  if (confirm('Восстановить? Может не надо?')) {
+    return true;
+  }
+  return false;
+}
+function submitUndelDiscussionForm() {
+  if (checkUndelDiscussionForm()) {
+    document.undelDiscussion.submit();
+  }
+}
+function checkArchiveDiscussionForm() {
+  if (confirm('Вы уверены, что обсуждение в этой дискуссии закончено?')) {
+    return true;
+  }
+  return false;
+}
+function submitArchiveDiscussionForm() {
+  if (checkArchiveDiscussionForm()) {
+    document.archiveDiscussion.submit();
+  }
+}
+</SCRIPT>
+</div>

@@ -1,0 +1,21 @@
+{% set style = 'answer' %}
+{% if msg.first_time is sameas(msg.time) %}{% set style = 'message' %}{% endif %}
+{% if msg.deleted_by %}{% set style = style ~ ' deleted' %}{% endif %}
+<div id="message_{{ msg.message_id }}" first_time="{{ msg.first_time }}" time="{{ msg.time }}">
+<div class="{{ style }}" align="justify"">
+{% if msg.is_new %}<A NAME="msg{{ new_current }}"></A>{% endif %}
+{% include 'message/actions.html' %}
+{{ msg | userLink(profile_in_new_page) }}{% if msg.comment %}, {{ msg.comment }}{% endif %}
+{% if book.is_admin %} [{{ msg.ip }}]{% endif %}
+{% if book.is_admin and msg.deleted_by %} (deleted by {{ msg.deleted_by }}){% endif %}
+<br/>
+{{ msg.text|br }}
+</div>
+<div class="{{ style }}" align="right">
+{% if new_current %}<A class=message HREF="#msg{{ new_next }}">{% endif %}
+{{ msg.date|book_date }}
+{% if msg.is_new %} <B>New! {% if new_index %}({{ new_index }}){%endif%}</B>{% endif %}
+{% if new_current %}</A>{% endif %}
+</div>
+<div id="admin_message_placeholder_{{ msg.message_id }}"></div>
+</div>

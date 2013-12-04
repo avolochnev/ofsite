@@ -1,0 +1,58 @@
+<FORM ACTION="session.phtml" METHOD="POST" NAME="enterForm">
+<INPUT TYPE=HIDDEN NAME="action" VALUE="create"></INPUT>
+<INPUT TYPE=HIDDEN NAME="redirect" VALUE="{{ request_uri }}"></INPUT>
+<table class="enter_form">
+  <TR>
+   <TD>
+   Ник:</TD>
+   <TD><INPUT TYPE=TEXT NAME="nick" MAXLENGTH=50 style="width:70px; height:20px;" ></INPUT></TD>
+   <TD>
+      <A class="top_link" href="users.phtml?action=registration">регистрация</A>
+   </TD>
+  </TR>
+  <TR>
+   <TD>Пароль:</TD>
+   <TD valign=top><INPUT TYPE=PASSWORD NAME="password" style="width:70px; height:20px;" ></INPUT></TD>
+    <TD>
+    <INPUT TYPE=SUBMIT VALUE="Войти" onClick="return checkLBZEnterForm();" style="width: 83px; height:20px;"></INPUT></TD>
+  </TR>
+</TABLE>
+</FORM>
+<script type="text/javascript">
+function getCookie(name) {
+  var prefix = name + '=';
+  var start = document.cookie.indexOf(prefix);
+  if (start == -1) {
+    return '';
+  }
+  start += prefix.length;
+  var end = document.cookie.indexOf(';', start);
+  if (end == -1) {
+    end = document.cookie.length;
+  }
+  return unescape(document.cookie.substring(start, end));
+}
+
+function setCookieNick(nick) {
+  // Устанавливаем дату истечения cookies на год.
+  var largeExpDate = new Date ();
+  largeExpDate.setTime(largeExpDate.getTime() + (365 * 24 * 3600 * 1000));
+  // alert(largeExpDate.toGMTString());
+  document.cookie = 'nick=' + escape(nick) + ';expires=' + largeExpDate.toGMTString();
+}
+
+function checkLBZEnterForm() {
+  if (!document.enterForm.nick.value) {
+    alert ('Необходимо указать ник!');
+    return false;
+  }
+  setCookieNick(document.enterForm.nick.value);
+  if (!document.enterForm.password.value) {
+    alert ('Необходимо указать пароль!');
+    return false;
+  }
+  return true;
+}
+
+  document.enterForm.nick.value = getCookie('nick');
+</script>

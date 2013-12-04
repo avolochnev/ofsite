@@ -1,0 +1,35 @@
+{% extends content.layout %}
+
+{% block title %}Личные сообщения{% endblock %}
+
+{% block menu_local %}
+  {% if moderator_id %}
+    <a href="private.phtml?user_id={{ moderator_id }}" class="action">Написать модератору</a>
+  {% endif %}
+  {% include 'books/menu.html' %}
+{% endblock %}
+
+{% block main_content %}
+  {% for discussion in discussions %}
+  <p>
+    <a href="private.phtml?user_id={{ discussion.adressee_id }}{% if discussion.as_id %}&as_id={{ discussion.as_id }}{% endif %}{% if discussion.new %}#new{% endif %}">
+    <b>{{ discussion.adressee_nick }}</b>{% if discussion.as_id %} (как {{ discussion.as_nick }}){% endif %},
+    сообщений: {{ discussion.total - discussion.new }}{% if discussion.new %} + <span class="new-count">{{ discussion.new }}</span>{% endif %}
+    </a>
+  </p>
+  {% else %}
+  <p>Нет сообщений.</p>
+  {% endfor %}
+  <div id="nick_list_placeholder"></div>
+  <div class="message form">
+    <form onsubmit="findNick(); return false;">
+    <div class="body">
+      <input type="text" id="find_nick" placeholder="Найти ник"></input>
+    </div>
+    <div class="actions">
+      <a class="button" href="javascript:findNick()">Найти</a>
+    </div>
+    </form>
+  </div>
+{% endblock %}
+

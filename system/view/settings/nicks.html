@@ -1,0 +1,10 @@
+<p class="discussion"><B>{{ list_title }}</B></p>
+<P>
+{% for nick in nicks %}
+  {{ nick | userLink -}}
+  {%- if nick.active == 'N' -%}<I> (заблокирован)</I>{%- endif -%}
+  {%- if not loop.last -%};{%- else -%}.{%- endif -%}
+{% else %}
+  Список пуст.
+{% endfor %}
+</P>

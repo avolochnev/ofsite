@@ -1,0 +1,4 @@
+<div class="vote option"><span class="fade-in">&#x2714;</span>
+  <INPUT type="text" maxlength="100" id="add_option_{{ vote.discussion_id }}" placeholder="Еще вариант"></INPUT>
+  <INPUT type="submit" value="Добавить" onClick="javascript:voteAddOption({{ vote.discussion_id }}, document.getElementById('add_option_{{ vote.discussion_id }}').value)"></INPUT>
+</div>

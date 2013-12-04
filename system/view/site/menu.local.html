@@ -1,0 +1,14 @@
+{% for menu in menus.local.items %}
+  {% if menu.items is empty %}
+  <span><A HREF="{{ menu.url }}" class="menu2item">{{ menu.title }}</A></span>
+  {% else %}
+  <span class="dropdown_menu_container">
+    <A HREF="{{ menu.url }}" class="menu2item">{{ menu.title }} &#9660;</A>
+    <ul class="dropdown_menu">
+    {% for item in menu.items %}
+       <li><A HREF="{{ item.url }}">{{ item.title }}</A></li>
+    {% endfor %}
+    </ul>
+  </span>
+  {% endif %}
+{% endfor %}

@@ -1,0 +1,16 @@
+{% extends content.layout %}
+
+{% block title %}{{ book.book_name }} / {{ msg.caption }}{% endblock %}
+
+{% block menu_local %}
+  {% include 'books/menu.html' %}
+{% endblock %}
+
+{% block content_navigation %}
+  <a href="discussions.phtml?id={{ msg.discussion_id }}" class="action">К дискуссии</a>
+{% endblock %}
+
+{% block main_content %}
+  {% include 'discussions/message.html' %}
+{% endblock %}
+

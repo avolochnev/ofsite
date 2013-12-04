@@ -1,0 +1,3 @@
+{% for menu in menus.main.items %}
+<A HREF="{{ menu.url }}" class="menu0item{% if menu.selected %} menu0selected{% endif %}">{{ menu.title }}</A>
+{% endfor %}

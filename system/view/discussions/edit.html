@@ -1,0 +1,29 @@
+{% extends content.layout %}
+
+{% block title %}{{ book.book_name }} / {{ discussion.caption }}{% endblock %}
+
+{% block menu_local %}
+  {% include 'books/menu.html' %}
+{% endblock %}
+
+{% block content_navigation %}
+  <a href="discussions.phtml?id={{ discussion.discussion_id }}" class="action">К дискуссии</a>
+  {% if discussion.is_deleted %}
+    {% if book.is_admin %}
+      <a href="javascript:submitUndelDiscussionForm()" class="action">Восстановить дискуссию</a>
+    {% endif %}
+  {% else %}
+    {% if book.is_admin %}
+      <a href="javascript:submitDelDiscussionForm()" class="action">Удалить дискуссию</a>
+      {% if not discussion.is_archived %}
+        <a href="javascript:submitArchiveDiscussionForm()" class="action">Архивировать</a>
+      {% endif %}
+    {% endif %}
+  {% endif %}
+{% endblock %}
+
+{% block main_content %}
+  {% include 'discussions/move.form.html' %}
+  {% include 'discussions/admin.form.html' %}
+{% endblock %}
+

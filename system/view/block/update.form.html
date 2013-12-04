@@ -1,0 +1,27 @@
+<CENTER>
+<FORM action="blocks.phtml" METHOD="POST" name="changeDateForm">
+  <INPUT type="hidden" name="action" value="update"/>
+  <INPUT type="hidden" name="id" value="{{ block.block_id }}"/>
+<TABLE class="form">
+{% include 'block/date.row.html' with { field: 'till', year: year, month: month, day: day } %}
+<TR><TD colspan="3">
+Комментарий к изменению срока:<BR/>
+<TEXTAREA NAME="comment" rows=8 cols=50 wrap="virtual"></TEXTAREA>
+</TD></TR>
+<TR><TD class="buttons" colspan="3"><INPUT TYPE="submit" value="Изменить"/></TD></TR>
+<TR><TD colspan="3">Внимание! Этот комментарий отправляется пользователю.</TD></TR>
+</TABLE>
+</FORM>
+
+<FORM action="blocks.phtml" METHOD="POST" name="cancelBlockForm">
+  <INPUT type="hidden" name="action" value="cancel"/>
+  <INPUT type="hidden" name="id" value="{{ block.block_id }}"/>
+<TABLE class="form">
+<TR><TD colspan="3">
+Комментарий к отмене:<BR/>
+<TEXTAREA NAME="comment" rows=8 cols=50 wrap="virtual"></TEXTAREA>
+</TD></TR>
+<TR><TD class="buttons" colspan="3"><INPUT TYPE="submit" value="Отменить"/></TD></TR>
+</TABLE>
+</FORM>
+</CENTER>

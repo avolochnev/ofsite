@@ -1,0 +1,49 @@
+{% extends content.layout %}
+
+{% block title %}{{ book.book_name }} / {{ discussion.caption }}{% endblock %}
+
+{% block menu_local %}
+  {% include 'books/menu.html' %}
+{% endblock %}
+
+{% block content_navigation %}
+  {% if book.is_admin %}
+    <a href="discussions.phtml?id={{ discussion_id }}&action=edit" class="action">Изменить</a>
+  {% endif %}
+{% endblock %}
+
+{% block main_content %}
+  <style>.answer { padding: 5px 0px; }</style>
+
+  {% if vote_context %}
+    {% include 'vote/show.html' with vote_context %}
+    {% if vote_edit %}{% include 'vote/edit.html' with { vote: vote_edit } %}{% endif %}
+  {% endif %}
+
+  {% if is_archived %}<p align="right">[архив]</p>{% endif %}
+
+  {% if answer_allowed and not pref.form_in_bottom %}
+    {% include 'message/add.form.html' %}
+  {% endif %}
+
+  {% if list %}
+    {{ list | pagination }}
+    {% for msg in list.data %}
+      {% include 'discussions/message.html' with { msg: msg } %}
+    {% endfor %}
+    {{ list | pagination }}
+  {% endif %}
+
+  {% if answer_allowed and pref.form_in_bottom %}
+    {% include 'message/add.form.html' %}
+  {% endif %}
+
+  {% if current_user and not is_archived %}
+    {% include 'discussions/trace.html' with { discussion: { id: discussion_id, dont_trace: dont_trace } } %}
+  {% endif %}
+
+  {% if current_user and not pref.as_book and not is_archived %}
+    {% include 'discussions/mark.as.read.html' with { discussions_id: [discussion_id], time: time } %}
+  {% endif %}
+{% endblock %}
+

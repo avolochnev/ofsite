@@ -1,0 +1,41 @@
+{% extends content.layout %}
+
+{% block title %}{{ book.book_name }} / О книге{% endblock %}
+
+{% block menu_local %}
+  {% include 'books/menu.html' %}
+{% endblock %}
+
+{% block main_content %}
+  {% if book.description %}
+  <P>{{ book.description }}</P>
+  {% endif %}
+  <p>Книга состоит из дискуссий, в каждой из которых можно размещать сообщения.
+  Вам доступны следующие возможности:</p>
+
+  <div class="gf_item"><div class="gf_item_title"><A href="messages.phtml?mode=new&book={{ book.book_id }}">Новые сообщения</A></div>
+  <p>Просмотр сообщений, которые Вы еще не читали.</p>
+  </div>
+
+  <div class="gf_item"><div class="gf_item_title"><A HREF="messages.phtml?book={{ book.book_id }}">Обновленные дискуссии</A></div>
+  <p>То же самое, только вместе с новыми сообщениями выводятся все сообщения из обновленных дискуссий. Новые сообщения
+  помечаются маркером <b>New</b>.</p>
+  </div>
+
+  <div class="gf_item"><div class="gf_item_title"><A HREF="discussions.phtml?book={{ book.book_id }}">Список дискуссий</A></div>
+  <p>Список текущих дискуссий.</p>
+  </div>
+
+  <div class="gf_item"><div class="gf_item_title"><A HREF="discussions.phtml?book={{ book.book_id }}&action=search">Поиск сообщений</A></div>
+  <p>Поиск сообщений как в активных, так и в заархивированных дискуссиях по различным параметрам (автор, дата, название, текст).</p>
+  </div>
+
+  <div class="gf_item"><div class="gf_item_title"><A HREF="discussions.phtml?book={{ book.book_id }}&action=archive">Архив</A></div>
+  <p>Просмотр заархивированных сообщений.</p>
+  </div>
+
+  <div class="gf_item"><div class="gf_item_title"><A HREF="discussions.phtml?book={{ book.book_id }}&action=newForm">Создать дискуссию</A></div>
+  <p>Создание новой дискуссии. Возможность доступна только после авторизации.</p>
+  </div>
+{% endblock %}
+

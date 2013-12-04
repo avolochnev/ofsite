@@ -1,0 +1,20 @@
+{% extends content.layout %}
+
+{% block title %}{{ book.book_name }} / Список дискуссий{% if only_new %} (обновления){% endif %}{% endblock %}
+
+{% block menu_local %}
+  {% include 'books/menu.html' %}
+{% endblock %}
+
+{% block main_content %}
+  {{ list | pagination }}
+  {% for discussion in list.data %}
+    {% include 'forum/discussion.link.html' with { discussion: discussion } %}
+  {% else %}
+    <P>
+      {% if only_new %}Нет новых сообщений{% else %}Нет сообщений{% endif %}
+    </P>
+  {% endfor %}
+  {{ list | pagination }}
+{% endblock %}
+

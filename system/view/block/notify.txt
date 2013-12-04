@@ -1,0 +1,5 @@
+Уважаемый(ая) {{ data.nick }},
+Вы были заблокированы за нарушение правила "{{ rule_name }}" в сообщении от {{ data.date|book_date }}.
+Текст сообщения: http://{{ host }}/board/messages.phtml?id={{ data.message_id }}&action=show
+{{ comment }}
+Окончание действия блокировки {{ till }}."

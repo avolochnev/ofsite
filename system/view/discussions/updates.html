@@ -1,0 +1,8 @@
+{% if content.discussion_updates %}
+<div class="gf_item">
+<div class="gf_item_title">Обновленные дискуссии</div>
+{% for discussion in content.discussion_updates %}
+  {% include 'forum/discussion.link.html' with {'discussion': discussion, 'showRecord': -1} %}
+{% endfor %}
+</div>
+{% endif %}

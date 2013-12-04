@@ -1,0 +1,43 @@
+{% extends content.layout %}
+
+{% block title %}Гостевые Книги / Настройки{% endblock %}
+
+{% block menu_local %}
+  {% include 'settings/menu.html' %}
+  {{ parent() }}
+{% endblock %}
+
+{% block main_content %}
+  <FORM ACTION="users.phtml" METHOD="POST" NAME="sendForm">
+  <INPUT TYPE=HIDDEN NAME="action" VALUE="update_settings"></INPUT>
+  <TABLE align="center" class="form">
+  <TR><TD class=form colspan=2><INPUT TYPE=CHECKBOX NAME="reg_sort_type" value="1" {% if preference.sort_type %} checked {% endif %}>Cортировать дискуссии по дате последнего сообщения</INPUT></TD><TD class=form></TD></TR>
+  <TR><TD class=form colspan=2><INPUT TYPE=CHECKBOX NAME="reg_form_in_bottom" value="1" {% if preference.form_in_bottom %} checked {% endif %}>Форма для отправки сообщений под дискуссией</INPUT></TD><TD class=form></TD></TR>
+  <TR><TD class=form colspan=2>
+    <INPUT TYPE=CHECKBOX NAME="reg_as_book" value="1" {% if preference.as_book %} checked {% endif %}>Не помечать сообщения как прочитанные при просмотре отдельной дискуссии</INPUT></TD><TD class=form><I>(Для читающих в режиме форума не рекомендуется)</I></TD></TR>
+  <TR><TD class=form>Страница по умолчанию</TD><TD class=form><SELECT name="default_page">
+  {% for key, value in pages %}
+    <OPTION value="{{ key }}"
+    {% if key == preference.default_page %} selected {% endif %}
+    >{{ value|first }}</OPTION>
+  {% endfor %}
+  </SELECT></TD><TD class=form></TD></TR>
+  <TR><TD class=form>Выделять любимые ники: </TD><TD class=form><SELECT name="highlight_nick">
+  {% for key, value in highlights %}
+    <OPTION value="{{ key }}"
+      {% if key == preference.highlight_nick %} selected {% endif %}
+    >{{ value }}</OPTION>
+  {% endfor %}
+  </SELECT></TD><TD class=form></TD></TR>
+  <TR><TD class=form colspan=3>Отслеживать изменения в следующих разделах:</INPUT></TD></TR>
+  {% for key, value in books %}
+  <TR><TD class=form colspan=2><INPUT TYPE=CHECKBOX NAME="trace_book_{{ key }}" value="1"{% if value.checked %} checked{% endif %}>{{ value.name }}</INPUT></TD><TD class=form></TD></TR>
+  {% endfor %}
+  <TR><TD align=center colspan=3><INPUT TYPE="SUBMIT" VALUE="Отправить" align=top></INPUT></TD></TR>
+  </TABLE>
+  </FORM>
+
+  {% include 'settings/nicks.html' with { nicks: black_list, list_title: 'Черный Список' } %}
+  {% include 'settings/nicks.html' with { nicks: red_list,   list_title: 'Красный Список' } %}
+{% endblock %}
+

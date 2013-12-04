@@ -1,0 +1,10 @@
+{% if content.book_updates %}
+<div class="gf_item">
+<div class="gf_item_title">Обновления</div>
+{% for upd in content.book_updates %}
+<p>
+  <a href="{{ upd.url }}">{{ upd.name }} (новых сообщений - {{ upd.cnt }})</a>
+</p>
+{% endfor %}
+</div>
+{% endif %}

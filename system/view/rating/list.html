@@ -1,0 +1,32 @@
+{% extends content.layout %}
+
+{% block title %}{{ book.book_name }} / Рейтинг / {{ title }}{% endblock %}
+
+{% block menu_local %}
+  {% include 'books/menu.html' %}
+{% endblock %}
+
+{% block content_navigation %}
+<a href="ratings.phtml?action=red&book={{ book.book_id }}" class="action">Красный список</a>
+<a href="ratings.phtml?action=black&book={{ book.book_id }}" class="action">Черный список</a>
+<a href="ratings.phtml?action=messages&book={{ book.book_id }}" class="action">Количество сообщений</a>
+<a href="ratings.phtml?action=discussions&book={{ book.book_id }}" class="action">Количество дискуссий</a>
+{% endblock %}
+
+{% block main_content %}
+  {{ list | pagination }}
+  <TABLE class="content_list">
+    <TR>
+      <TH>Ник</TH><TH>Количество</TH>
+    </TR>
+  {% for row in list.data %}
+    <TR>
+      <TD>{{ row.userid | userLinkById }}</TD>
+      <TD>{{ row.cnt }}</TD>
+    </TR>
+  {% else %}
+  <caption>Ничего не найдено</caption>
+  {% endfor %}
+  </TABLE>
+  {{ list | pagination }}
+{% endblock %}

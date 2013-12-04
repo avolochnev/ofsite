@@ -1,0 +1,9 @@
+<FORM ACTION="users.phtml?id={{ user.user_id }}" METHOD="POST" NAME="editUser">
+{% for key, value in realms %}
+<div>
+<INPUT name="realm_{{key}}" type="checkbox" value="1"{% if value %} checked{% endif %}/>{{ key }}
+</div>
+{% endfor %}
+<INPUT TYPE=HIDDEN NAME="action" VALUE="updateAccess"></INPUT>
+<INPUT TYPE=SUBMIT VALUE="Изменить"></INPUT>
+</FORM>

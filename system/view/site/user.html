@@ -1,0 +1,14 @@
+{% if current_user %}
+Привет, <b>{{ current_user.data.nick }}</b>!<BR>
+<A class="top_link" href="users.phtml?action=edit">профайл</A>
+{% if current_user | hasAccess('CMS_ADMIN') %}
+<A class="top_link" href="pages.phtml">админ-интерфейс</A>
+{% elseif current_user | hasAccess('BOOK_ADMIN') %}
+<A class="top_link" href="blocks.phtml">админ-интерфейс</A>
+{% elseif current_user | hasAccess('S_ADMIN') %}
+<A class="top_link" href="users.phtml">админ-интерфейс</A>
+{% endif %}
+<A class="top_link" href="session.phtml?action=destroy">выход</A>
+{% else %}
+{% include 'site/user.enter.html' %}
+{% endif %}

@@ -1,0 +1,14 @@
+{% extends content.layout %}
+
+{% block title %}{{ book.book_name }} / Все сообщения{% endblock %}
+
+{% block menu_local %}
+  {% include 'books/menu.html' %}
+{% endblock %}
+
+{% block main_content %}
+  {{ list | pagination }}
+  {% include 'message/list.html' with { messages: list.data, not_found: 'Нет сообщений' } %}
+  {{ list | pagination }}
+{% endblock %}
+

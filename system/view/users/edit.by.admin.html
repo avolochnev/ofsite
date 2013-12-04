@@ -1,0 +1,26 @@
+{% extends content.layout %}
+
+{% macro profile_line(label, text) %}
+{% if text|trim %}
+<div class="gf_prop">
+  <div class="gf_prop_name">{{ label }}</div>
+  <div class="gf_prop_value">{{ text|raw }}</div>
+</div>
+{% endif %}
+{% endmacro %}
+
+{% use 'admin/menu.html' %}
+
+{% block title %}{{ user.nick }}{% endblock %}
+
+{% block content_navigation %}
+  <a href="users.phtml?id={{ user.user_id }}" class="action">Профайл</a>
+{% endblock %}
+
+{% block main_content %}
+  {% if realms %}{% include 'users/profile.access.html' %}{% endif %}
+
+  {% include 'users/nick.change.history.html' %}
+  {% include 'profiles/blocks.html' %}
+  {% include 'profiles/warns.html' %}
+{% endblock %}

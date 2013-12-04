@@ -1,0 +1,20 @@
+{% extends content.layout %}
+
+{% use 'admin/menu.html' %}
+
+{% block title 'Блокировка пользователя ' ~ block.nick %}
+{% block main_content %}
+<P>
+  Пользователь {{ block.user_id | userLinkById }}
+  заблокирован {% if block.till %}до {{ block.till }}{% else %}навсегда{% endif %}
+  за нарушение правила <B>{{ block.rule_id | rule_name }}</B>.
+</P>
+<P><B>Сообщение:</B></BR>{{ msg.text|br }}</P>
+{% if block.comment %}
+<P><B>Комментарий модератора:</B><BR/>{{ block.comment|br }}
+</P>
+{% endif %}
+{% if not block.finished %}
+  {% include 'block/update.form.html' %}
+{% endif %}
+{% endblock %}

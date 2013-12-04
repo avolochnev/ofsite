@@ -1,0 +1,61 @@
+<div>
+<FORM ACTION="messages.phtml?id={{ discussion_id }}" METHOD="POST" NAME="sendForm"><INPUT TYPE=HIDDEN NAME="action" VALUE="create">
+<TABLE align=center>
+  <TR>
+    <TD class=form valign="middle">Имя (Ник):</TD>
+    <TD valign="middle" class=form><b>{{ current_user.nick }}</b></TD>
+  </TR>
+  <TR>
+   <TD class=form valign="middle">Город:</TD>
+   <TD valign="middle"><INPUT TYPE=TEXT NAME="comment" MAXLENGTH=50></INPUT></TD>
+  </TR>
+  <TR>
+   <TD colspan=2 class="form">Добавить сообщение:<BR><TEXTAREA NAME="message" rows=8 cols=40 wrap="virtual"></TEXTAREA></TD>
+  </TR>
+  <TR><TD align=center colspan=2>
+    <INPUT TYPE=SUBMIT VALUE="Отправить" onClick="return checkForm();"></INPUT>
+   </TD>
+  </TR>
+</TABLE>
+</FORM>
+<SCRIPT language="javascript">
+// Устанавливаем дату истечения cookies на год.
+var largeExpDate = new Date ();
+largeExpDate.setTime(largeExpDate.getTime() + (365 * 24 * 3600 * 1000));
+
+function checkForm() {
+  setCookie('', '', document.sendForm.comment.value);
+  if (!document.sendForm.message.value) {
+    alert ('Необходимо указать текст сообщения!');
+    return false;
+  }
+  if (confirm('Отправить сообщение?')) {
+    return true;
+  }
+  return false;
+}
+
+function getCookie(name) {
+  var prefix = name + '=';
+  var start = document.cookie.indexOf(prefix);
+  if (start == -1) {
+    return '';
+  }
+  start += prefix.length;
+  var end = document.cookie.indexOf(';', start);
+  if (end == -1) {
+    end = document.cookie.length;
+  }
+  return unescape(document.cookie.substring(start, end));
+}
+
+function setCookie(password, email, comment) {
+  document.cookie = 'password=' + escape(password);
+  document.cookie = 'email=' + escape(email) + ';expires=' + largeExpDate.toGMTString();
+  document.cookie = 'comment=' + escape(comment) + ';expires=' + largeExpDate.toGMTString();
+}
+
+  document.sendForm.comment.value = getCookie('comment');
+  // document.sendForm.message.focus();
+</SCRIPT>
+</div>

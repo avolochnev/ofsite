@@ -1,0 +1,17 @@
+{% extends content.layout %}
+
+{% use 'admin/menu.html' %}
+
+{% block title %}Блокировка по IP{% endblock %}
+
+{% block content_navigation %}
+<a href="ip_blocks.phtml" class="action">К списку</a>
+{% endblock %}
+
+{% block main_content %}
+  {{ object | edit_form }}
+
+  {% if ip_block_id %}
+    {% include 'ip_blocks/delete.form.html' with { id: ip_block_id } %}
+  {% endif %}
+{% endblock %}

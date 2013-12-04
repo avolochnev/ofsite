@@ -1,0 +1,32 @@
+<FORM action="users.phtml" method="POST" name="addGroupUserForm" onSubmit="return checkAddGroupUser();">
+<INPUT type="hidden" name="action" value="addGroupUser">
+<TABLE align="center">
+  <TR>
+    <TD class="form">Ник</TD>
+    <TD class="form"><INPUT type="TEXT" name="nick" maxlength="50" value="{{ nick }}"></TD>
+    <TD class="form">(Обязательно)</TD>
+  </TR>
+  <TR>
+    <TD class="form">Группа</TD>
+    <TD class="form"><INPUT type="TEXT" name="group" maxlength="15" value="{{ group }}"></TD>
+    <TD class="form">(Область доступа, обязательно)</TD>
+  </TR>
+  <TR>
+    <TD colspan=3 align="center"><INPUT type="submit" value="Добавить"></TD>
+  </TR>
+</TABLE>
+</FORM>
+<SCRIPT language="javascript">
+function checkAddGroupUser() {
+  if (!document.addGroupUserForm.nick.value.length) {
+    alert('Ник не должен быть пустым');
+    return false;
+  }
+  if (!document.addGroupUserForm.group.value.length) {
+    alert('Должна быть указана группа');
+    return false;
+  }
+  return true;
+}
+
+</SCRIPT>

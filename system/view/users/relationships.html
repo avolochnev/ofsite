@@ -1,0 +1,21 @@
+{% extends content.layout %}
+
+{% block title %}{{ user_id | nick_by_id }}: отношения{% endblock %}
+
+{% block content_navigation %}
+  <a href="users.phtml?id={{ user_id }}" class="action">Профайл</a>
+{% endblock %}
+
+{% block main_content %}
+  {% for title, links in lists if not links is empty %}
+    <div class="gf_item"><div class="gf_item_title">{{ title }}</div><ul>
+    {% for link in links %}
+      <li><a href="users.phtml?id={{ link.user_id }}&action=relationships">{{ link.nick }} </a></li>
+    {% endfor %}
+    </ul>
+  {% else %}
+    <p>Нет связей</p>
+  {% endfor %}
+{% endblock %}
+
+

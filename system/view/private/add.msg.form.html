@@ -1,0 +1,8 @@
+<div class="message form">
+  <form action="private.phtml?action=create&user_id={{ user.user_id }}{% if as_id %}&as_id={{ as_id }}{% endif %}" method="post">
+  <textarea name="text" style="width: 100%; height: 6em;"></textarea>
+  <div class="actions">
+    <input class="button" type="submit" value="Отправить"/>
+  </div>
+  </form>
+</div>

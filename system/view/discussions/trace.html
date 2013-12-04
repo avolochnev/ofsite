@@ -1,0 +1,4 @@
+<div class="trace">
+<A class="trace_toggle" href="javascript:dontTrace({{ discussion.id }}, 'Y')"{% if discussion.dont_trace %} style="display: none;"{% endif %}>[не отслеживать изменения]</A>
+<A class="trace_toggle" href="javascript:dontTrace({{ discussion.id }}, 'N')"{% if not discussion.dont_trace %} style="display: none;"{% endif %}>[отслеживать изменения]</A>
+</div>

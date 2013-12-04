@@ -1,0 +1,1 @@
+$('#vote_{{ vote.discussion_id }}').replaceWith('{% filter escape('js') %}{% include 'vote/show.html' with vote_context %}{% endfilter %}');

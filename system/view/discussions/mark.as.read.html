@@ -1,0 +1,12 @@
+{% if discussions_id %}
+<script>
+$(document).ready(function(){
+  $.ajax({
+    type: "POST",
+    url: "discussions.phtml",
+    data: {discussions_id: [{{ discussions_id|join(',') }}], action: 'markAsRead', time: {{ time }}},
+    dataType: 'script'
+  });
+});
+</script>
+{% endif %}

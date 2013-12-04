@@ -1,0 +1,24 @@
+{% for err in content.errors %}
+  <div class="error">{{ err }}</div>
+{% endfor %}
+{% for msg in content.messages %}
+  <div class="notify">{{ msg }}</div>
+{% endfor %}
+
+{% if book and book.spec_message %}
+  <div class="gf_notification">
+    <p>{{ book.spec_message | raw }}</p>
+  </div>
+{% endif %}
+
+{% if current_user | hasAccess('BOOK_BLOCK') %}
+  <div class="gf_notification">
+    <h1>Блокировка</h1>
+    <p>
+       Уважаемый(ая) {{ current_user.nick }}!<BR/>
+       В данный момент Ваш ник заблокирован. Вы не можете создавать сообщения и дискуссии.
+       {% set till = current_user.till['BOOK_BLOCK'] %}
+       {% if till %}<BR/>Окончание блокировки - {{ till }}.{% endif %}
+    </p>
+  </div>
+{% endif %}

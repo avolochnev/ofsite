@@ -1,0 +1,13 @@
+<div class="gf_item"><div class="gf_item_title">Блокировки:</div></div>
+<TABLE class="content_list"><TR><TH>Правило</TH><TH>С/до</TH>
+<TH>М-р</TH>
+<TH>Изменить</TH></TR>
+{% for block in blocks %}
+<TR>
+  <TD>{{ block.rule_id | rule_name }}</TD>
+  <TD>{{ block.created }}<BR/>{{ block.till ?: 'Навсегда' }}</TD>
+  <TD>{{ block.created_by | userLinkById }}</TD>
+  <TD><A HREF="blocks.phtml?id={{ block.block_id }}">[{{ block.current ? 'Изменить' : 'Подробности' }}]</A></TD>
+</TR>
+{% endfor %}
+</TABLE>

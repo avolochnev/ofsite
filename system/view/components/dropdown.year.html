@@ -1,0 +1,6 @@
+<SELECT NAME="{{ name }}" value="{{ value }}">
+  <OPTION VALUE="0000"></OPTION>
+{% for year in start..finish %}
+  <OPTION VALUE="{{ year }}"{% if year == value %} selected{% endif %}>{{ year }}</OPTION>
+{% endfor %}
+</SELECT>

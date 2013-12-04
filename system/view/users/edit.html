@@ -1,0 +1,13 @@
+{% extends content.layout %}
+
+{% block title %}Профайл / {{ current_user.nick }}{% endblock %}
+
+{% block menu_local %}
+  {% include 'settings/menu.html' %}
+  {{ parent() }}
+{% endblock %}
+
+
+{% block main_content %}
+  {{ object | edit_form }}
+{% endblock %}

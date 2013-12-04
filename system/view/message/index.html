@@ -1,0 +1,52 @@
+{% extends content.layout %}
+
+{% block title %}{{ book.book_name }} / {% if only_new %}Новые сообщения{% else %}Обновленные дискуссии{% endif %}{% endblock %}
+
+{% block menu_local %}
+  {% include 'books/menu.html' %}
+{% endblock %}
+
+{% block content_navigation %}
+  <div class="actions">
+    <a href="messages.phtml?book={{ book.book_id }}{% if only_new %}&mode=new{% endif %}&t={{ time }}" class="button">Обновить</a>
+  </div>
+{% endblock %}
+
+{% block bottom_navigation %}
+  {% if discussions %}{{ block('content_navigation') }}{% endif %}
+{% endblock %}
+
+
+{% block main_content %}
+  {% flush %}
+  {% include 'books/updates.count.html' %}
+  {% set new_current = 0 %}
+
+  {% for d in discussions if d.messages or d.voting %}
+    {% include 'discussions/header.in.list.html'
+          with { discussion_id: d.discussion_id, caption: d.caption, vote: d.vote } %}
+
+    {% if only_new and d.first_displayed_time %}
+      {% include 'discussions/prev.link.html'
+            with { discussion_id: d.discussion_id, first_time: d.first_displayed_time } %}
+    {% endif %}
+
+    {% for m in d.messages %}
+      {% if m.is_new %}
+        {% set new_current = new_current + 1 %}
+      {% endif %}
+
+      {% include 'discussions/message.html'
+            with { msg: m,
+                   new_current: new_current,
+                   new_next: (new_count == new_current ? '0' : new_current + 1),
+                   new_index: (new_count - new_current + 1) } %}
+      {% flush %}
+    {% endfor %}
+
+    {% include 'discussions/actions.html' with { discussion: d } %}
+  {% endfor %}
+
+  {% if discussions_id %}{% include 'discussions/mark.as.read.html' %}{% endif %}
+{% endblock %}
+

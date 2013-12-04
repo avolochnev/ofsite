@@ -1,0 +1,4 @@
+Уважаемый(ая) {{ msg.nick }},
+Вам выносится предупреждение за нарушение правила "{{ rule_name }}" в сообщении от {{ msg.date|book_date }}.
+Текст сообщения: http://{{ host }}/board/messages.phtml?id={{ msg.message_id }}&action=show
+{{ comment }}

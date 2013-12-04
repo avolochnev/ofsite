@@ -1,0 +1,17 @@
+<p>
+	<FORM action="discussions.phtml" method="GET">
+		<INPUT type="hidden" name="action" value="archive"></INPUT>
+		<INPUT type="hidden" name="book" value="{{ state.book_id }}"></INPUT>
+		<SELECT name="year" value="{{ state.year }}">
+			{% for year in range(state.startYear, state.curYear) %}
+			<OPTION value="{{ year }}"{% if year == state.year %} selected{% endif %}>{{ year }}</OPTION>
+			{% endfor %}
+		</SELECT>
+		<SELECT name="month" value="{{ state.month }}">
+			{% for month, name in monthes %}
+			<OPTION value="{{ month }}"{% if month == state.month %} selected{% endif %}>{{ name }}</OPTION>
+			{% endfor %}
+		</SELECT>
+    <INPUT TYPE="SUBMIT" VALUE="Перейти" align="top"></INPUT>
+ 	</FORM>
+</p>

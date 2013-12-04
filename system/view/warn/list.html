@@ -1,0 +1,28 @@
+{% extends content.layout %}
+
+{% use 'admin/menu.html' %}
+
+{% block title %}Предупреждения{% endblock %}
+
+{% block main_content %}
+  {{ list | pagination }}
+  <TABLE class="content_list">
+    <TR>
+      <TH>Ник</TH>
+      <TH>Дата</TH>
+      <TH>Предупредил</TH>
+      <TH></TH>
+    </TR>
+  {% for warning in list.data %}
+  <TR>
+    <TD><A HREF="users.phtml?id={{warning.user_id}}"><b>{{ warning.user_id | userLinkById }}</b></A></TD>
+    <TD>{{ warning.created }}</TD>
+    <TD>{{ warning.created_by | userLinkById }}</TD>
+    <TD><A HREF="warns.phtml?id={{ warning.warning_id }}">[подробности]</A></TD>
+  </TR>
+  {% else %}
+  <caption>Нет предупреждений</caption>
+  {% endfor %}
+  </TABLE>
+  {{ list | pagination }}
+{% endblock %}

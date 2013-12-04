@@ -1,0 +1,3 @@
+Уважаемый(ая) {{ block.user_id | nick_by_id }},
+Блокировка за нарушение правила {{ block.rule_id | rule_name }} была отменена.
+{{ comment }}
