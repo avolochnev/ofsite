@@ -5,25 +5,25 @@ Web-сайт с поддержкой гостевых книг и простей
 ## Требования
 
 - PHP 5.2.4+
--- модуль mysql
--- молудь mb_string
--- Библиотека Twig 1.12+
+  - модуль mysql
+  - молудь mb_string
+  - Библиотека Twig 1.12+
 - MySQL 5
 - Apache 2 веб-сервер
--- rewrite_module
--- php5_module
+  - rewrite_module
+  - php5_module
 
 ## Установка
 
 - установить и настроить Apache, MySQL, Twig;
 - создать базу данных ( mysql> CREATE DATABASE ofsite CHARACTER SET utf8; )
--- при необходимости создать пользователя в mysql и настроить доступ к базе данных
+  - при необходимости создать пользователя в mysql и настроить доступ к базе данных
 - cd %DocumentRoot%
--- git clone https://github.com/avolochnev/ofsite.git
--- создать структуру таблиц ( mysql ofsite < ofsite/system/db/001_init.sql )
--- в ofsite/app/config/config.php
---- настроить содединение с базой данных
---- настроить путь к Twig
+  - git clone https://github.com/avolochnev/ofsite.git
+  - создать структуру таблиц ( mysql ofsite < ofsite/system/db/001_init.sql )
+  - в ofsite/app/config/config.php
+  - настроить содединение с базой данных
+  - настроить путь к Twig
 - настроить переадресацию запросов к приложенив в httpd.conf или .htaccess (см. ниже)
 - первый зарегистрировавшийся пользователь автоматически становится администратором
 - создать основную книгу (главная страница, меню "Добавить книгу")
