@@ -28,7 +28,7 @@ class DB {
 
   public static function safe($str) {
     $db = self::load();
-    return mysql_real_escape_string($str, $db->connection);
+    return mysql_real_escape_string(stripcslashes($str), $db->connection);
   }
 
   public static function one($table, $where, $columns = '*') {
