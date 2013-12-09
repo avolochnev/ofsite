@@ -2,93 +2,70 @@
 
 class BookUtils {
   public static function updates($user, $possible_user, $current_book) {
-    $current_book_id = $current_book ? $current_book->book_id : 0;
-    $preference = $possible_user->preferences();
+    $updates = self::book_updates($possible_user, $current_book);
 
-    // 1. Получаем список книг.
-    $books = $possible_user->available_books();
-    // 1.1. Исключаем текущую книгу, а также книги, которые пользователь не отслеживает.
-    $traceBooks = array();
-    foreach ($books as $book) $traceBooks[$book->book_id] = $book->book_id;
-    if ($current_book_id) unset($traceBooks[$current_book_id]);
-    foreach (split(',', $preference->dont_trace_books) as $id) unset($traceBooks[$id]);
+    if ($user && strpos($_SERVER['REQUEST_URI'], '/private') === FALSE) {
+      if ($newPrivateCount = PrivateUtils::new_count($user->user_id)) {
+        $updates[] = self::private_update_line($newPrivateCount);
+      }
+    }
 
-    reset($traceBooks);
-    $blackList = $possible_user->black_list();
-    $user_id = $possible_user->user_id;
+    return $updates;
+  }
+
+  private static function book_updates($possible_user, $current_book) {
+    $traceBooks = $possible_user->traceable_books();
+    if ($current_book) unset($traceBooks[$current_book->book_id]);
+    if (empty($traceBooks)) return array();
+
     $updates = array();
-    UserRead::synchronize($user_id, $traceBooks);
+    if ($possible_user->user_id) UserRead::synchronize($possible_user->user_id, $traceBooks);
+    $blackList = $possible_user->black_list();
+    $common_where = "d.deleted_by = 0 AND d.is_archived = 'N' AND d.discussion_id = m.discussion_id
+                 AND m.deleted_by = 0 AND m.userid <> 0 $blackList";
+    $read_where = "r.userid = $possible_user->user_id AND r.discussion_id = d.discussion_id AND r.dont_trace = 'N'";
 
-    if ($user) {
-      $wherePart = '';
-      while(list($id, $value) = each($traceBooks)) {
-        if ($value) {
-          $wherePart .= ($wherePart ? ' OR ' : '') . 'd.book_id = ' . $id;
-        }
-      }
-
-      if ($wherePart) {
-        $wherePart = "($wherePart)";
-
-        // 3. Строим и выполняем запрос по выводу количества новых сообщений в книгах.
-        $query = "SELECT b.book_id, count(1) AS new_messages
-                    FROM gfb_book AS b, gfb_discussion AS d, gfb_user_read AS r, gfb_message AS m
-                   WHERE r.userid = $user->user_id AND r.discussion_id = d.discussion_id AND d.book_id = b.book_id
-                     AND r.discussion_id = m.discussion_id AND $wherePart AND d.deleted_by = 0
-                     AND d.is_archived = 'N' AND m.deleted_by = 0 AND r.last_read < m.time $blackList
-                     AND r.dont_trace = 'N' AND m.userid <> 0
-                   GROUP BY d.book_id
-                   ORDER BY priority DESC, b.book_id;";
-
-        foreach(DB::i($query) as $ro) {
-          $updates[] = array(
-            'id' => $ro->book_id,
-            'name' => $books[$ro->book_id]->book_name,
-            'url' => "books.phtml?book=$ro->book_id&action=show",
-            'cnt' => $ro->new_messages);
-        }
-      }
-
-      if (strpos($_SERVER['REQUEST_URI'], '/private') === FALSE) {
-        $newPrivateCount = PrivateUtils::new_count($user->user_id);
-        if ($newPrivateCount) {
-          $updates[] = array(
-            'id' => 'private',
-            'name' => 'Личные сообщения',
-            'url' => "private.phtml",
-            'cnt' => $newPrivateCount);
-        }
-      }
+    if ($possible_user->is_logged) {
+      $book_ids = implode(', ', $traceBooks);
+      $query = "SELECT b.book_id, b.book_name, count(1) AS new_messages
+                  FROM gfb_book AS b, gfb_discussion AS d, gfb_user_read AS r, gfb_message AS m
+                 WHERE d.book_id = b.book_id AND b.book_id IN ($book_ids) AND $common_where AND $read_where
+                   AND r.last_read < m.time
+                 GROUP BY d.book_id
+                 ORDER BY priority DESC, b.book_id;";
+      foreach(DB::i($query) as $ro) $updates[] = self::update_line($ro->book_id, $ro->book_name, $ro->new_messages);
     } else {
-      while(list($id, $value) = each($traceBooks)) {
-        if ($value) {
-          $last_show_time = $_COOKIE["board_$id"] + 0;
-          $wherePart = "(d.book_id = $id AND m.time > $last_show_time)";
-          // 3. Строим и выполняем запрос по выводу количества новых сообщений в книгах.
-          if ($user_id) {
-            // 2. Синхронизируем таблицу READ для этих книг.
-            $query = sprintf("SELECT count(1) AS new_messages FROM gfb_discussion AS d, gfb_user_read AS r, gfb_message AS m
-                 WHERE r.userid = %d AND r.discussion_id = d.discussion_id AND r.discussion_id = m.discussion_id
-                   AND $wherePart AND d.deleted_by = 0 AND d.is_archived = 'N' AND m.deleted_by = 0 $blackList
-                   AND r.dont_trace = 'N' AND m.userid <> 0;", $user_id);
-          } else {
-            $query = "SELECT count(1) AS new_messages FROM gfb_discussion AS d, gfb_message AS m
-                 WHERE d.discussion_id = m.discussion_id AND $wherePart AND d.deleted_by = 0 AND d.is_archived = 'N' AND m.deleted_by = 0 $blackList
-                   AND m.userid <> 0;";
-          }
-          if($ro = DB::obj($query)) {
-            if ($ro->new_messages > 0) {
-              $updates[] = array(
-                'id' => $id,
-                'name' => $books[$id]->book_name,
-                'url' => "books.phtml?book=$id&action=show",
-                'cnt' => $ro->new_messages);
-            }
-          }
+      $books = $possible_user->available_books();
+      foreach($traceBooks as $id => $value) {
+        $last_show_time = $_COOKIE["board_$id"] + 0;
+        if ($possible_user->user_id) {
+          $query = "SELECT count(1) AS new_messages FROM gfb_discussion AS d, gfb_user_read AS r, gfb_message AS m
+                     WHERE d.book_id = $id AND m.time > $last_show_time AND $common_where AND $read_where";
+        } else {
+          $query = "SELECT count(1) AS new_messages FROM gfb_discussion AS d, gfb_message AS m
+                     WHERE d.book_id = $id AND m.time > $last_show_time AND $common_where";
+        }
+        $ro = DB::obj($query);
+        if($ro->new_messages > 0) {
+          $updates[] = self::update_line($id, $books[$id]->book_name, $ro->new_messages);
         }
       }
     }
     return $updates;
+  }
+
+  private static function update_line($book_id, $book_name, $new_messages) {
+    return array('id' => $book_id,
+                 'name' => $book_name,
+                 'url' => "books.phtml?book=$book_id&action=show",
+                 'cnt' => $new_messages);
+  }
+
+  private static function private_update_line($new_messages) {
+    return array('id' => 'private',
+                 'name' => 'Личные сообщения',
+                 'url' => 'private.phtml',
+                 'cnt' => $new_messages);
   }
 
   public static function landingPages() {
