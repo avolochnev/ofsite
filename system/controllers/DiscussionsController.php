@@ -29,7 +29,7 @@ class DiscussionsController extends BookAwareController {
     $discussions_id = $_POST['discussions_id'];
     $time = $_POST['time'] + 0;
     foreach ($discussions_id as $discussion_id) {
-      BookUtils::mark_discussion_as_read($this->current_user->user_id, $discussion_id, $time);
+      UserRead::mark_discussion_as_read($this->current_user->user_id, $discussion_id, $time);
     }
   }
 
@@ -52,13 +52,13 @@ class DiscussionsController extends BookAwareController {
     $this->load_book();
     if (!$this->current_book->can_see_deleted) HTTPUtils::forbidden();
     $this->render('books/deleted.html', array(
-      'list' => new Paginator(BookUtils::query_deleted($this->book_id, $this->possible_user), 30)));
+      'list' => new Paginator($this->current_book->query_deleted(), 30)));
   }
 
   public function all() {
     $this->load_book();
     $this->render('books/all.html', array(
-      'list' => new Paginator(BookUtils::query_all($this->book_id, $this->possible_user), 30)));
+      'list' => new Paginator($this->current_book->query_all(), 30)));
   }
 
   public function search() {
@@ -73,10 +73,8 @@ class DiscussionsController extends BookAwareController {
   public function index() {
     $this->load_book();
     $only_new = $_GET[mode] == 'new';
-    $query = BookUtils::getDiscussionListQuery2($this->current_user, $this->possible_user, $this->book_id, $only_new, 0);
-    if (!$only_new) {
-      $this->content->discussion_updates = BookUtils::discussion_updates($this->current_user, $this->book_id);
-    }
+    if (!$only_new) $this->content->discussion_updates = $this->current_book->discussion_updates();
+    $query = $this->current_book->query_discussions($only_new, 0);
     $this->render('forum/index.html', array(
       'only_new' => $only_new,
       'list' => new Paginator($query, 20)));
@@ -112,7 +110,7 @@ class DiscussionsController extends BookAwareController {
     $d_id = $_POST[id] + 0;
     $this->params_for_discussion($d_id);
     if (!$this->current_book->is_admin) HTTPUtils::noAccess();
-    DiscussionUtils::destroy($d_id, $this->current_user);
+    DiscussionUtils::destroy($this->current_user, $d_id);
     $this->addMessage("Дискуссия удалена");
     $this->edit();
   }
@@ -176,7 +174,7 @@ class DiscussionsController extends BookAwareController {
     }
 
     // Выводим последние несколько непрочитанных дискуссий.
-    $this->content->discussion_updates = BookUtils::discussion_updates($user, $this->book_id, $discussion_id);
+    $this->content->discussion_updates = $this->current_book->discussion_updates($discussion_id);
 
     $prev_read = $this->time;
     if ($user && !$is_archived && !$is_deleted) {

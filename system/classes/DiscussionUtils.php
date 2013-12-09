@@ -67,7 +67,7 @@ class DiscussionUtils {
     DB::q($query);
   }
 
-  public static function destroy($d_id, $user) {
+  public static function destroy($user, $d_id) {
     $user_id = $user->user_id;
     DB::q("UPDATE gfb_discussion SET deleted_by = $user_id WHERE discussion_id = $d_id");
     DB::q("UPDATE gfb_message SET deleted_by = $user_id WHERE discussion_id = $d_id AND deleted_by = 0;");
@@ -168,7 +168,17 @@ class DiscussionUtils {
     }
     $query .= ';';
 
-    return DB::all($query);  }
+    return DB::all($query);
+  }
+
+  public static function reset_last_time($discussion_id) {
+    $query = "SELECT max(time) as max_time FROM gfb_message WHERE discussion_id = $discussion_id AND deleted_by = 0;";
+    $ro = DB::obj($query);
+    if ($ro && $ro->max_time > 0) {
+      $query = sprintf("UPDATE gfb_discussion SET last_time=%d WHERE discussion_id = $discussion_id", $ro->max_time);
+      DB::q($query);
+    }
+  }
 }
 
 ?>

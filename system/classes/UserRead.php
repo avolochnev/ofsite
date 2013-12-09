@@ -85,6 +85,17 @@ class UserRead {
     }
 
   }
+
+  public static function last_read($user_id, $discussion_id) {
+    $read = self::load($user_id, $discussion_id);
+    return $read->last_read;
+  }
+
+  public static function mark_discussion_as_read($user_id, $discussion_id, $time_ms) {
+    $read = self::load($user_id, $discussion_id);
+    $read->mark($time_ms);
+    $read->save();
+  }
 }
 
 ?>

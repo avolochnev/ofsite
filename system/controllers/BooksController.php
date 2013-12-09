@@ -15,7 +15,7 @@ class BooksController extends BookAwareController {
 
   public function about() {
     $this->load_book();
-    $this->content->discussion_updates = BookUtils::discussion_updates($this->current_user, $this->current_book->book_id);
+    $this->content->discussion_updates = $this->current_book->discussion_updates();
     $this->render('books/info.html');
   }
 

@@ -106,7 +106,17 @@ class MessageUtils {
     $query = sprintf("UPDATE gfb_message SET deleted_by = %d WHERE message_id = %d", $delete ? $user->user_id : 0, $message_id);
     DB::q($query);
     $discussion_id = DB::field('gfb_message', 'discussion_id', "message_id = $message_id");
-    BookUtils::resetLastTime($discussion_id);
+    DiscussionUtils::reset_last_time($discussion_id);
+  }
+
+  public static function move_to_discussion($message_id, $old_discussion_id, $discussion_id) {
+    DB::q("UPDATE gfb_message SET discussion_id = $discussion_id WHERE message_id = $message_id");
+    DiscussionUtils::reset_last_time($old_discussion_id);
+    DiscussionUtils::reset_last_time($discussion_id);
+  }
+
+  public static function destroy($user, $message_id) {
+    DB::q("UPDATE gfb_message SET deleted_by = $user->user_id WHERE message_id = $message_id");
   }
 }
 

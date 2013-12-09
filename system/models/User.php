@@ -119,7 +119,7 @@ class User {
     $query = "SELECT * FROM gfb_book ORDER BY priority DESC, book_id;";
     foreach (DB::i($query) as $ro) {
       if (!$ro->access_rights || $this->hasAccess($ro->access_rights)) {
-        $this->available_books[$ro->book_id] = new Book($ro, $this->is_logged ? $this : null);
+        $this->available_books[$ro->book_id] = new Book($ro, $this);
       }
     }
   }

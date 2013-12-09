@@ -35,9 +35,9 @@ class BlockUtils {
     if (self::has_block($msg)) throw new DomainException('Блокировка данного пользователя за данное сообщение уже произведена.');
 
     if ($msg->is_answer) {
-      BookUtils::deleteMessage($msg->message_id, $user);
+      MessageUtils::destroy($user, $msg->message_id);
     } else {
-      BookUtils::deleteDiscussion($msg->discussion_id, $user);
+      DiscussionUtils::destroy($user, $msg->discussion_id);
     }
     self::create($msg, $rule_id, $till_year, $till_month, $till_day, $comment, $user);
   }

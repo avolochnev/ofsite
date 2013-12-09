@@ -23,13 +23,13 @@ class MessagesController extends BookAwareController {
     $discussion = $this->load_discussion_as_writer($discussion_id);
     $text = $_POST['text'];
     MessageUtils::verify_and_insert($discussion_id, $text, '', $this->time, $user);
-    $prev_read = BookUtils::last_read($discussion_id, $user->user_id);
+    $prev_read = UserRead::last_read($user->user_id, $discussion_id);
     $addedMessages = MessageUtils::for_period($discussion_id, $this->possible_user, $prev_read, $this->time);
     $this->render('message/insert.js', array(
       'discussion_id' => $discussion_id,
       'messages' => $addedMessages,
       'profile_in_new_page' => true));
-    BookUtils::mark_discussion_as_read($user->user_id, $discussion_id, $this->time);
+    UserRead::mark_discussion_as_read($user->user_id, $discussion_id, $this->time);
   }
 
   public function loadPrev() {
@@ -64,7 +64,7 @@ class MessagesController extends BookAwareController {
     MessageUtils::update($message_id, $_POST['comment'], $_POST['text']);
     $move_to_discussion_id = $_POST['move_to_discussion_id'] + 0;
     if ($msg->discussion_id != $move_to_discussion_id) {
-      BookUtils::moveMessageToDiscussion($message_id, $msg->discussion_id, $move_to_discussion_id);
+      MessageUtils::move_to_discussion($message_id, $msg->discussion_id, $move_to_discussion_id);
       echo("$('#message_$message_id').replaceWith('<div class=\"notify\">Сообщение перенесено</div>');");
     } else {
       $msg = MessageUtils::find($message_id); // reload.

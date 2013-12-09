@@ -29,10 +29,10 @@ class WarnsController extends BookAwareController {
     if (WarnUtils::has_warn($msg)) throw new DomainException('Пользователь уже предупрежден за данное сообщение.');
 
     if ($del_discussion) {
-      BookUtils::deleteDiscussion($msg->discussion_id, $user);
+      DiscussionUtils::destroy($user, $msg->discussion_id);
       $notify = 'Дискуссия удалена; ';
     } else if ($del_message) {
-      BookUtils::deleteMessage($msg->message_id, $user);
+      MessageUtils::destroy($user, $msg->message_id);
       $notify = 'Сообщение удалено; ';
     }
 
