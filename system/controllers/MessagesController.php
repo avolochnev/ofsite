@@ -140,7 +140,6 @@ class MessagesController extends BookAwareController {
       'only_new' => ($mode == 'new'),
       'discussions' => $discussions,
       'new_count' => $new_count,
-      'time' => $this->time,
       'profile_in_new_page' => true,
       'discussions_id' => $discussions_id
       ));

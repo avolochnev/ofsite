@@ -134,6 +134,7 @@ abstract class ApplicationController {
 
   protected function setup_twig_globals() {
     $this->addGlobal('possible_user', $this->possible_user);
+    $this->addGlobal('time', $this->time);
     if ($this->respond_with != 'js') {
       $this->content->layout = "layout/$this->layout.html";
       $this->addGlobal('menus', $this->fill_menu());

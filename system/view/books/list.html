@@ -38,5 +38,12 @@
   </p>
   </div>
   {% endif %}
+
+  {% if not content.book_updates %}
+  <p>Нет новых сообщений.</p>
+  <div class="actions">
+    <a href="books.phtml?t={{ time }}" class="button">Обновить</a>
+  </div>
+  {% endif %}
 {% endblock %}
 
