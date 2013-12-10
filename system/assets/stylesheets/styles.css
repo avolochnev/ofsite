@@ -40,6 +40,7 @@ table.enter_form input {border: 1px solid #000080;}
 .deleted {text-decoration: line-through;}
 .answer {padding: 5px 20px 5px 20px; margin: 0px 0px 0px 0px;}
 .header {margin: 0px 0px 0px 0px; background-color: #9FCFFF;}
+.me, .me:visited { color: #5377E3; }
 .nick1, .nick1:visited {color: #008800;}
 .nick2, .nick2:visited {color: #FF0000;}
 .nick3, .nick3:visited {color: #FFFFFF; background-color: #000080; padding-left: 5px; padding-right: 5px;}

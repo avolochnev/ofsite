@@ -11,6 +11,7 @@ class Preferences {
   var $as_book = 0;         // Работа в режиме книги. Не ставить метку прочтения при открытии дискуссии.
   var $last_discussion = 0; // Последняя просмотренная пользователем дискуссия.
   var $sort_type = 0; // Сортировать дискуссии в обратном порядке.
+  var $highlight_me = FALSE; // Подсвечивать собственный ник.
 
   function Preferences($user) {
     $this->user = $user;
@@ -36,6 +37,7 @@ class Preferences {
       $this->highlight_nick = $ro->highlight_nick;
       $this->as_book = DB::yn2bool($ro->as_book);
       $this->sort_type = DB::yn2bool($ro->sort_type);
+      $this->highlight_me = DB::yn2bool($ro->highlight_me);
     } else {
       DB::q("INSERT INTO gfb_preferences (user_id) VALUES (" . $this->user_id . ")");
     }
@@ -47,6 +49,7 @@ class Preferences {
     $this->form_in_bottom  =  $_POST[reg_form_in_bottom] + 0;
     $this->default_page    =  $_POST[default_page] + 0;
     $this->highlight_nick  =  $_POST[highlight_nick] + 0;
+    $this->highlight_me    =  $_POST[highlight_me] + 0;
 
     $dont_trace = '';
     $availableBooks =& $this->user->available_books();
@@ -71,7 +74,8 @@ class Preferences {
                              default_page = %d,
                              highlight_nick = %d,
                              as_book = '%s',
-                             sort_type = '%s'
+                             sort_type = '%s',
+                             highlight_me = '%s'
                        WHERE user_id = %d;",
                      $this->last_discussion,
                      DB::bool2yn($this->form_in_bottom),
@@ -80,6 +84,7 @@ class Preferences {
                      $this->highlight_nick,
                      DB::bool2yn($this->as_book),
                      DB::bool2yn($this->sort_type),
+                     DB::bool2yn($this->highlight_me),
                      $this->user_id);
     DB::q($query);
     return 1;

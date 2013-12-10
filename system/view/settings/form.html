@@ -15,6 +15,8 @@
   <TR><TD class=form colspan=2><INPUT TYPE=CHECKBOX NAME="reg_form_in_bottom" value="1" {% if preference.form_in_bottom %} checked {% endif %}>Форма для отправки сообщений под дискуссией</INPUT></TD><TD class=form></TD></TR>
   <TR><TD class=form colspan=2>
     <INPUT TYPE=CHECKBOX NAME="reg_as_book" value="1" {% if preference.as_book %} checked {% endif %}>Не помечать сообщения как прочитанные при просмотре отдельной дискуссии</INPUT></TD><TD class=form><I>(Для читающих в режиме форума не рекомендуется)</I></TD></TR>
+  <TR><TD class=form colspan=2>
+    <INPUT TYPE=CHECKBOX NAME="highlight_me" value="1" {% if preference.highlight_me %} checked {% endif %}>Выделять мой ник</INPUT></TD><TD class=form></TD></TR>
   <TR><TD class=form>Страница по умолчанию</TD><TD class=form><SELECT name="default_page">
   {% for key, value in pages %}
     <OPTION value="{{ key }}"

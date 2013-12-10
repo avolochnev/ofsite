@@ -87,12 +87,13 @@ class User {
   }
 
   public function link_to_user($nick, $id, $blank = FALSE) {
+    $preferences = $this->preferences();
     if ($this->is_priority($id)) {
-      $preferences = $this->preferences();
       $nickStyle = 'nick' . $preferences->highlight_nick;
     } else {
       $nickStyle = 'message';
     }
+    if ($this->user_id == $id && $preferences->highlight_me) $nickStyle .= ' me';
     return '<A class="' . $nickStyle . '" href="users.phtml?id=' . $id . '" ' . ($blank ? 'target="_blank"' : '') . '><b>' . $nick . '</b></A>';
   }
 
