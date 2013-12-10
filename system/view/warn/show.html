@@ -6,10 +6,10 @@
 
 {% block main_content %}
   <P>Пользователь <b>{{ msg.nick }}</b> предупрежден за нарушение правила <B>{{ rule }}</B>.</P>
-  <P><B>Сообщение:</B></BR>{{ text|raw|br }}</P>
+  <P><B>Сообщение:</B></BR>{{ text|raw|nl2br }}</P>
   {% if msg.comment %}
   <P><B>Комментарий модератора:</B><BR/>
-  {{ msg.comment|br }}
+  {{ msg.comment|nl2br }}
   {% endif %}
 {% endblock %}
 

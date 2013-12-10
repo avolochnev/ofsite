@@ -37,7 +37,7 @@
   {% if user.hide_email == 'N' %}
   {{ _self.profile_line('e-mail', user.email) }}
   {% endif %}
-  {{ _self.profile_line('Информация', user.note|br) }}
+  {{ _self.profile_line('Информация', user.note|nl2br) }}
   {% if user.active == 'N' %}
   {{ _self.profile_line('Статус', '<b>Заблокирован</b>'|raw) }}
   {% endif %}

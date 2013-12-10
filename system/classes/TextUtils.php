@@ -105,10 +105,6 @@ class TextUtils {
     return $instance->removeTags($instance->removeSpaces($str));
   }
 
-  public static function replaceCR($in) {
-    return ereg_replace("\n", "\n<BR>", $in);
-  }
-
   // Возвращает кусок условия where для поиска по слову
   // $fieldName - имя поля
   // $value - искомое значение

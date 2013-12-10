@@ -9,7 +9,7 @@
   <div class="gf_item_menu"><A href="rules.phtml?rule_id={{ rule.rule_id }}">Изменить</A></div>
   {% endif %}
   {% if rule.description %}
-    <p>{{ rule.description|br }}</p>
+    <p>{{ rule.description|nl2br }}</p>
   {% endif %}
   {% if rule.need_block == 'Y' and rule.need_warn == 'Y' %}
     <p>За нарушение данного правила пользователь может быть предупрежден или заблокирован.</p>

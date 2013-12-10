@@ -9,9 +9,9 @@
   заблокирован {% if block.till %}до {{ block.till }}{% else %}навсегда{% endif %}
   за нарушение правила <B>{{ block.rule_id | rule_name }}</B>.
 </P>
-<P><B>Сообщение:</B></BR>{{ msg.text|br }}</P>
+<P><B>Сообщение:</B></BR>{{ msg.text|raw|nl2br }}</P>
 {% if block.comment %}
-<P><B>Комментарий модератора:</B><BR/>{{ block.comment|br }}
+<P><B>Комментарий модератора:</B><BR/>{{ block.comment|nl2br }}
 </P>
 {% endif %}
 {% if not block.finished %}

@@ -9,7 +9,7 @@
 {% if book.is_admin %} [{{ msg.ip }}]{% endif %}
 {% if book.is_admin and msg.deleted_by %} (deleted by {{ msg.deleted_by }}){% endif %}
 <br/>
-{{ msg.text|br }}
+{{ msg.text|raw|nl2br }}
 </div>
 <div class="{{ style }}" align="right">
 {% if new_current %}<A class=message HREF="#msg{{ new_next }}">{% endif %}
