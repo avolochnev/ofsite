@@ -6,7 +6,7 @@
       <FORM action="discussions.phtml" method="GET">
       <INPUT TYPE=HIDDEN NAME="action" VALUE="search"></INPUT>
       <INPUT TYPE=HIDDEN NAME="book" VALUE="{{ params.book_id }}"></INPUT>
-      <INPUT TYPE=TEXT NAME="nick" maxlength=50 VALUE="{{ params.nick|quote }}"></INPUT>
+      <INPUT TYPE=TEXT NAME="nick" maxlength=50 VALUE="{{ params.nick }}"></INPUT>
     </td>
   </tr>
   <tr>
@@ -30,7 +30,7 @@
       Дискуссия:
     </td>
     <td>
-      <INPUT TYPE=TEXT NAME="discussion" maxlength=50 VALUE="{{ params.discussion|quote }}"></INPUT>
+      <INPUT TYPE=TEXT NAME="discussion" maxlength=50 VALUE="{{ params.discussion }}"></INPUT>
     </td>
   </tr>
   <tr>
@@ -38,7 +38,7 @@
       Текст:
     </td>
     <td>
-      <INPUT TYPE=TEXT NAME="message_text" maxlength=50 VALUE="{{ params.message_text|quote }}"></INPUT>
+      <INPUT TYPE=TEXT NAME="message_text" maxlength=50 VALUE="{{ params.message_text }}"></INPUT>
     </td>
   </tr>
   <tr>

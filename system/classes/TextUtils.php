@@ -105,11 +105,6 @@ class TextUtils {
     return $instance->removeTags($instance->removeSpaces($str));
   }
 
-  // Заменят кавычку на &quot;
-  public static function quote($str) {
-    return ereg_replace("\"", "&quot;", $str);
-  }
-
   public static function replaceCR($in) {
     return ereg_replace("\n", "\n<BR>", $in);
   }

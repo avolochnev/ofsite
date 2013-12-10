@@ -53,7 +53,6 @@ class MessagesController extends BookAwareController {
     $this->load_book_as_admin($msg->book_id);
     twig('message/edit.form.html', array(
       'msg' => $msg,
-      'comment' => TextUtils::quote($msg->comment),
       'discussions' => DiscussionUtils::discussion_options($msg->book_id, $msg->discussion_id)));
   }
 

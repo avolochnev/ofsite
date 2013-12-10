@@ -8,7 +8,6 @@ $twig = new Twig_Environment($loader, array('cache' => '../twig.cache'));
 
 $safe = array('is_safe' => array('html'));
 $twig->addFilter(new Twig_SimpleFilter('br', array('TextUtils', 'replaceCR'), $safe));
-$twig->addFilter(new Twig_SimpleFilter('quote', array('TextUtils', 'quote')));
 $twig->addFilter(new Twig_SimpleFilter('hasAccess', array('UserUtils', 'hasAccess')));
 $twig->addFilter(new Twig_SimpleFilter('randomPix', array('FileUtils', 'randomPix')));
 $twig->addFilter(new Twig_SimpleFilter('book_date', array('DateUtils', 'parseDate')));

@@ -395,7 +395,7 @@ function checkEditForm() {
           } else {
             $inputType = "TEXT";
           }
-          $result .= sprintf("<INPUT TYPE=$inputType NAME=\"%s\" value=\"%s\"", $key, TextUtils::quote($value));
+          $result .= sprintf("<INPUT TYPE=$inputType NAME=\"%s\" value=\"%s\"", $key, self::quote($value));
           if ($max = $data[FLD_MAX_LENGTH]) {
             $result .= sprintf(" MAXLENGTH=%d", $max);
           }
@@ -409,7 +409,7 @@ function checkEditForm() {
       }
       return $result;
     } else {
-      return sprintf('<INPUT TYPE="HIDDEN" NAME="%s" value="%s"></INPUT>', $key, TextUtils::quote($value));
+      return sprintf('<INPUT TYPE="HIDDEN" NAME="%s" value="%s"></INPUT>', $key, self::quote($value));
     }
   }
 
@@ -479,6 +479,11 @@ function checkEditForm() {
     } else {
       return false;
     }
+  }
+
+  // Заменят кавычку на &quot;
+  private static function quote($str) {
+    return ereg_replace("\"", "&quot;", $str);
   }
 
   public static function render($obj, $title = '') {
