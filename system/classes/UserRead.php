@@ -62,21 +62,16 @@ class UserRead {
 
     $books_where = array();
     foreach ($book_ids as $id) $books_where[] = "d.book_id = $id";
-    $where = implode(" AND ", $books_where);
-
+    $where = implode(" OR ", $books_where);
     // Для этого сначала достаем полный список дискуссий
     $query = "SELECT discussion_id FROM gfb_discussion AS d WHERE ($where) AND deleted_by = 0 AND is_archived = 'N';";
     $arr = array();
-    foreach (DB::i($query) as $ro) {
-      $arr[$ro->discussion_id] = 1;
-    }
+    foreach (DB::i($query) as $ro) $arr[$ro->discussion_id] = 1;
 
     // Теперь достаем список всех просмотренных дискуссий, и сверяем с имеющимся.
     $query = "SELECT r.discussion_id FROM gfb_user_read AS r, gfb_discussion AS d WHERE r.userid = $user_id AND d.discussion_id = r.discussion_id AND ($where);";
+    foreach (DB::i($query) as $ro) $arr[$ro->discussion_id] = 0;
 
-    foreach (DB::i($query) as $ro) {
-      $arr[$ro->discussion_id] = 0;
-    }
     // В результате в массиве единицы остались только у тех дискуссий, для которых у нас нет метки чтения.
     // Создаем эти метки.
     reset($arr);
