@@ -12,33 +12,28 @@
 
 {% block main_content %}
   {% for book in available_books if book.pseudo_book == 'N' or book_admin %}
-  <div class="gf_item">
-  <div class="gf_item_title"><A href="books.phtml?book={{ book.book_id }}&action=show">{{ book.book_name }}</A></div>
-  <div class="gf_item_menu">
-  <a href="messages.phtml?book={{ book.book_id }}&mode=new">Новые сообщения</a>
-  <a href="messages.phtml?book={{ book.book_id }}">Обновленные дискуссии</a>
-  <a href="discussions.phtml?book={{ book.book_id }}">Список дискуссий</a>
-  <a href="discussions.phtml?book={{ book.book_id }}&mode=new">Список обновлений</a>
-  {% if book_admin %}
-  <a href="books.phtml?book_id={{ book.book_id }}&action=edit">Изменить</a>
-  {% endif %}
-  </div>
-  <p>
-  {{ book.about|nl2br }}
-  </p>
-  </div>
+  <A class="tile" href="books.phtml?book={{ book.book_id }}&action=show">
+    <h4>{{ book.book_name }}
+      {% for upd in content.book_updates if upd.id == book.book_id and upd.cnt %}
+      <span class="highlight">новых сообщений: {{ upd.cnt }}</span>
+      {% endfor %}
+    </h4>
+    <p>{{ book.about|nl2br }}</p>
+  </A>
   {% endfor %}
   {% if current_user %}
-  <div class="gf_item">
-  <div class="gf_item_title"><A href="private.phtml">Личные сообщения</A></div>
-  <div class="gf_item_menu">
-  <a href="private.phtml">Список дискуссий</a>
-  </div>
-  <p>
-  </p>
-  </div>
+  <A class="tile" href="private.phtml">
+    <h4>Личные сообщения
+      {% for upd in content.book_updates if upd.id == 'private' and upd.cnt %}
+      <span class="highlight">новых сообщений: {{ upd.cnt }}</span>
+      {% endfor %}
+    </h4>
+    <p></p>
+  </A>
   {% endif %}
+{% endblock %}
 
+{% block book_updates %}
   {% if not content.book_updates %}
   <p>Нет новых сообщений.</p>
   <div class="actions">

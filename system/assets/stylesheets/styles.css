@@ -191,3 +191,44 @@ ul.dropdown_menu li a:hover {
 .other-link {padding-left: 0.5em; padding-right: 0.5em; font-weight: bold}
 
 .trace { text-align: right; }
+
+a.tile {
+  display: block;
+  padding: 1em;
+  margin: 0.5em 0;
+  background-color: #9FCFFF;
+  box-shadow: 0.2em 0.2em #5377E3;
+  -moz-box-shadow: 0.2em 0.2em #5377E3;
+  -webkit-box-shadow: 0.2em 0.2em #5377E3;
+}
+
+a.tile:hover {
+  background-color: #5377E3;
+  color: white;
+  box-shadow: 0.3em 0.3em #2246C1;
+  -moz-box-shadow: 0.3em 0.3em #2246C1;
+  -webkit-box-shadow: 0.3em 0.3em #2246C1;
+
+}
+
+.tile h4 {
+  margin: 0;
+}
+
+.tile p {
+  margin-bottom: 0;
+}
+
+.tile .highlight {
+  background-color: #5377E3;
+  color: white;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+  border: 3px solid #5377E3;
+  margin-left: 1.5em;
+}
+
+.tile:hover .highlight {
+  background-color: #000080;
+  border: 3px solid #000080;
+}
