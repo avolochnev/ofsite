@@ -3,6 +3,6 @@
   <OPTION VALUE=""></OPTION>
 {% endif %}
 {% for key, option in options %}
-  <OPTION VALUE="{{ key }}"{% if key == value %} selected{% endif %}>{{ "%.50s"|format(option) }}</OPTION>
+  <OPTION VALUE="{{ key }}"{% if key == value %} selected{% endif %}>{{ option }}</OPTION>
 {% endfor %}
 </SELECT>
