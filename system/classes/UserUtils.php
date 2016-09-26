@@ -41,7 +41,7 @@ class UserUtils {
   }
 
   public static function findByNick($nick) {
-    return DB::obj(sprintf("SELECT user_id, password, nick FROM gf_user WHERE nickid='%s';", self::getNickID($nick)));
+    return DB::obj(sprintf("SELECT user_id, password, nick, email FROM gf_user WHERE nickid='%s';", self::getNickID($nick)));
   }
 
   public static function hasAccess($user, $realm) {
@@ -174,7 +174,7 @@ class UserUtils {
 
   public static function set_password($user_id, $password) {
     $password = Access::crypt_password($password);
-    $query = sprintf("UPDATE gf_user SET password='$password' WHERE user_id=%d;", $user->user_id);
+    $query = sprintf("UPDATE gf_user SET password='$password' WHERE user_id=%d;", $user_id);
     DB::q($query);
   }
 
