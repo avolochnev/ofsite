@@ -5,6 +5,9 @@
   {% if book.can_create_discussion %}
     <span><A HREF="discussions.phtml?book={{ book.book_id }}&action=newForm" class="menu2item">Создать дискуссию</A></span>
   {% endif %}
+  {% if book.can_create_vote and not book.can_create_discussion %}
+    <span><A HREF="discussions.phtml?book={{ book.book_id }}&action=newForm&vote=true" class="menu2item">Создать голосование</A></span>
+  {% endif %}
 {% endif %}
 
 {% spaceless %}
@@ -40,6 +43,8 @@
       {% endif %}
       {% if current_user | hasAccess(['BOOK_ADMIN', 'BOOK_RATING']) %}
         <li><A HREF="ratings.phtml?book={{ book.book_id }}&action=red">Рейтинг</A></li>
+      {% endif %}
+      {% if book.can_create_vote and book.can_create_discussion %}
         <li><A HREF="discussions.phtml?book={{ book.book_id }}&action=newForm&vote=true">+Голосование</A></li>
       {% endif %}
     </ul>

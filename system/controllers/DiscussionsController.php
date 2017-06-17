@@ -202,7 +202,12 @@ class DiscussionsController extends BookAwareController {
 
   private function load_book_for_creator($book_id = 0) {
     $this->load_book($book_id);
-    if (!$this->current_book->can_create_discussion) HTTPUtils::forbidden();
+    $vote = Vote::fromPost();
+    if ($vote || $_GET['vote']) {
+      if (!$this->current_book->can_create_vote) HTTPUtils::forbidden();
+    } else {
+      if (!$this->current_book->can_create_discussion) HTTPUtils::forbidden();
+    }
   }
 }
 

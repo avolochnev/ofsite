@@ -10,6 +10,7 @@ class BookEditObject extends DBObject {
     $this->addField("access_rights",     FT_TEXT,     "Ограничение доступа",      0,   0,  '', 250);
     $this->addField("admin_rights",      FT_TEXT,     "Группа администраторов",      0,   0,  '', 250);
     $this->addField("create_discussion", FT_TEXT,     "Могут создавать дискуссии",      0,   0,  '', 250);
+    $this->addField("create_vote",       FT_TEXT,     "Могут создавать голосования",    0,   0,  'NOBODY', 250);
     $this->addField("pseudo_book",       FT_YN,       "Псевдо-книга",      0,   0,  0, 0);
     $this->addField("alive_term" ,       FT_INT,      "Автоархивация (дней)", 0, 0, 7);
     $this->addField("spec_message",      FT_TEXTAREA, "Специальное сообщение (HTML)", 0,    0, '', 0);

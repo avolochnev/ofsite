@@ -9,6 +9,7 @@ class Book {
   var $priority;
   var $access_rights;
   var $create_discussion;
+  var $create_vote;
   var $pseudo_book;
   var $admin_rights;
   var $alive_term;
@@ -17,6 +18,7 @@ class Book {
   // calculated
   var $can_add_message;
   var $can_create_discussion;
+  var $can_create_vote;
   var $is_admin;
   var $can_see_deleted;
   var $current_user;
@@ -30,6 +32,7 @@ class Book {
     $this->priority          = $ro->priority;
     $this->access_rights     = $ro->access_rights;
     $this->create_discussion = $ro->create_discussion;
+    $this->create_vote       = $ro->create_vote;
     $this->pseudo_book       = $ro->pseudo_book;
     $this->admin_rights      = $ro->admin_rights;
     $this->alive_term        = $ro->alive_term;
@@ -47,6 +50,9 @@ class Book {
     $this->can_create_discussion = ($this->can_add_message &&
                                     $this->pseudo_book == 'N' &&
                                     (!$this->create_discussion || $user->hasAccess($this->create_discussion)));
+    $this->can_create_vote = ($this->can_add_message &&
+                              $this->pseudo_book == 'N' &&
+                              (!$this->create_vote || $user->hasAccess($this->create_vote)));
 
     if (!$this->admin_rights) $this->admin_rights = 'BOOK_ADMIN';
     $this->is_admin = ($this->can_add_message && $user->hasAccess($this->admin_rights));
